@@ -10,6 +10,7 @@ import cats.effect.*
 import cats.effect.{IO, IOApp}
 import com.social.config.EmberConfig
 import com.social.config.syntax.*
+import com.social.http.HttpApi
 import com.social.http.routes.HealthRoutes
 import pureconfig.ConfigSource
 import pureconfig.error.ConfigReaderException
@@ -24,7 +25,7 @@ object Application extends IOApp.Simple {
       .default[IO]
       .withHost(config.host)
       .withPort(config.port)
-      .withHttpApp(HealthRoutes[IO].routes.orNotFound)
+      .withHttpApp(HttpApi[IO].endPoints.orNotFound)
       .build
       .use(_ => IO(println("server running...")) *> IO.never)
   }
