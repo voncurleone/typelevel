@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Added minimal configuration.">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/HttpApi.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Added post endpoint stubs.">
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/Post.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/HttpApi.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/HttpApi.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +22,13 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Package Object" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -38,22 +45,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/tim/IdeaProjects/typelevel/src/main/scala/com/social/http/routes",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tim/IdeaProjects/typelevel/src/main/scala/com/social/http/routes&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/scala/com/social/http/routes" />
@@ -123,7 +130,8 @@
       <option name="presentableId" value="Default" />
       <updated>1682096246263</updated>
       <workItem from="1682096247349" duration="3334000" />
-      <workItem from="1682171183891" duration="9609000" />
+      <workItem from="1682171183891" duration="10199000" />
+      <workItem from="1682262157941" duration="4076000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -146,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682183272499</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added post endpoint stubs.">
+      <created>1682201638980</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1682201638980</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,6 +182,7 @@
     <MESSAGE value="Initial commit." />
     <MESSAGE value="Added health endpoint in a basic http server layout." />
     <MESSAGE value="Added minimal configuration." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added minimal configuration." />
+    <MESSAGE value="Added post endpoint stubs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added post endpoint stubs." />
   </component>
 </project>
