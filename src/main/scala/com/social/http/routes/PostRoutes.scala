@@ -14,8 +14,11 @@ import org.http4s.server.*
 import java.util.UUID
 import scala.collection.mutable
 
+import org.typelevel.log4cats.Logger
+import com.social.logging.syntax.*
+
 //uuid => 11111111-1111-1111-1111-111111111111
-class PostRoutes[F[_] : Concurrent] private extends Http4sDsl[F] {
+class PostRoutes[F[_] : Concurrent: Logger] private extends Http4sDsl[F] {
 
   //Database
   private val database = mutable.Map[UUID, Post]()
@@ -46,8 +49,15 @@ class PostRoutes[F[_] : Concurrent] private extends Http4sDsl[F] {
   //POST /posts { jobInfo }
   private val createPostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
     case request @ POST -> Root / "create" => for {
-      postInfo <- request.as[PostInfo]
+      _ <- Logger[F].info("Creating post: simple log example")
+
+      postInfo <- request.as[PostInfo].log(
+        a => s"Creating post: $a",
+        e => s"Error creating post: $e"
+      )
+
       post <- createPost(postInfo)
+      _ <- database.put(post.id, post).pure[F]
       response <- Created(post.id)
     } yield response
   }
@@ -83,5 +93,5 @@ class PostRoutes[F[_] : Concurrent] private extends Http4sDsl[F] {
 }
 
 object PostRoutes {
-  def apply[F[_]: Concurrent] = new PostRoutes[F]
+  def apply[F[_]: Concurrent: Logger] = new PostRoutes[F]
 }

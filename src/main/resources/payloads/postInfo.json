@@ -1,0 +1,7 @@
+{
+  "text" : "test text",
+  "likes" : 5,
+  "dislikes" : 2,
+  "tags" : ["tag1"],
+  "image" : "test image"
+}
