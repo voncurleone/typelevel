@@ -21,5 +21,7 @@ object Post {
 
   object PostInfo {
     val empty: PostInfo = PostInfo("", 0, 0, None, None)
+    def minimal(text: String, likes: Int, disLikes: Int): PostInfo = 
+      PostInfo(text, likes, disLikes, None, None)
   }
 }

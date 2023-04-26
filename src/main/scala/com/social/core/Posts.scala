@@ -124,7 +124,7 @@ object PostFragments {
             image,
             hidden
         FROM posts
-        WHERE id == $id
+        WHERE id = $id
        """
 
   def create(ownerEmail: String, postInfo: PostInfo): Fragment =
@@ -160,7 +160,7 @@ object PostFragments {
                 disLikes = ${postInfo.disLikes},
                 tags = ${postInfo.tags},
                 image = ${postInfo.image}
-            WHERE IS = $id
+            WHERE id = $id
          """
 
   def delete(id: UUID): Fragment =
