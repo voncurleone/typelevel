@@ -5,6 +5,7 @@ import org.http4s.circe.CirceEntityCodec.*
 import cats.*
 import cats.effect.kernel.Concurrent
 import cats.implicits.*
+import com.social.core.Posts
 import com.social.domain.Post.{Post, PostInfo}
 import org.http4s.*
 import org.http4s.dsl.*
@@ -13,38 +14,29 @@ import org.http4s.server.*
 
 import java.util.UUID
 import scala.collection.mutable
-
 import org.typelevel.log4cats.Logger
 import com.social.logging.syntax.*
 
 //uuid => 11111111-1111-1111-1111-111111111111
-class PostRoutes[F[_] : Concurrent: Logger] private extends Http4sDsl[F] {
-
-  //Database
-  private val database = mutable.Map[UUID, Post]()
+class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F]) extends Http4sDsl[F] {
 
   //POST /posts?offset=x&limit=y { filters } //todo: add query params and filters
   private val allPostsRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case POST -> Root => Ok(database.values)
+    case POST -> Root => for {
+      postList <- posts.all()
+      response <- Ok(postList)
+    } yield response
   }
 
   //GET /posts/uuid
   private val findPostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case GET -> Root / UUIDVar(id) => database.get(id) match {
-      case Some(post) => Ok(post)
-      case None => NotFound(s"Post id $id not found.")
-    }
+    case GET -> Root / UUIDVar(id) =>
+      posts.find(id).flatMap {
+        case Some(post) => Ok(post)
+        case None => NotFound(s"Post id $id not found.")
+      }.logError( e => s"Error getting post: $e")
   }
 
-  private def createPost(postInfo: PostInfo): F[Post] = {
-    Post(
-      id = UUID.randomUUID(),
-      date = System.currentTimeMillis(),
-      email = "todo@todo.com",
-      postInfo = postInfo,
-      hidden = false
-    ).pure[F]
-  }
 
   //POST /posts { jobInfo }
   private val createPostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
@@ -56,30 +48,27 @@ class PostRoutes[F[_] : Concurrent: Logger] private extends Http4sDsl[F] {
         e => s"Error creating post: $e"
       )
 
-      post <- createPost(postInfo)
-      _ <- database.put(post.id, post).pure[F]
-      response <- Created(post.id)
+      postId <- posts.create("todo@todo.com", postInfo)
+      response <- Created(postId)
     } yield response
   }
 
   //PUT /posts/uuid { jobInfo }
   private val updatePostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case request @ PUT -> Root / UUIDVar(id) => database.get(id) match {
-      case Some(post) => for {
-        postInfo <- request.as[PostInfo]
-        _ <- database.put(id, post.copy(postInfo = postInfo)).pure[F]
-        response <- Ok()
-      } yield response
-
-      case None => NotFound(s"Can't update post $id: post not found.")
-    }
+    case request @ PUT -> Root / UUIDVar(id) => for {
+      postInfo <- request.as[PostInfo]
+      newPost <- posts.update(id, postInfo)//.logError(e => s"Error updating post: $e")
+      response <- newPost match
+        case Some(post) => Ok()
+        case None => NotFound(s"Can't update post $id: post not found.")
+    } yield response
   }
 
   //DELETE /posts/uuid
   private val deletePostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case DELETE -> Root / UUIDVar(id) => database.get(id) match {
+    case DELETE -> Root / UUIDVar(id) => posts.find(id).flatMap {
       case Some(_) => for {
-        _ <- database.remove(id).pure[F]
+        _ <- posts.delete(id)
         response <- Ok()
       } yield response
 
@@ -93,5 +82,5 @@ class PostRoutes[F[_] : Concurrent: Logger] private extends Http4sDsl[F] {
 }
 
 object PostRoutes {
-  def apply[F[_]: Concurrent: Logger] = new PostRoutes[F]
+  def apply[F[_]: Concurrent: Logger](posts: Posts[F]) = new PostRoutes[F](posts)
 }
