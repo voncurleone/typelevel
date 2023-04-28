@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Created a playground object to run algebra.">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Refactored added to config.">
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/AppConfig.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/PostgresConfig.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/Database.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/HttpApi.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/HttpApi.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +169,8 @@
       <workItem from="1682601746075" duration="3615000" />
       <workItem from="1682608312005" duration="476000" />
       <workItem from="1682608799420" duration="2276000" />
-      <workItem from="1682636932973" duration="353000" />
+      <workItem from="1682636932973" duration="4306000" />
+      <workItem from="1682688577522" duration="1131000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -226,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682546017470</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Full CRUD app.">
+      <created>1682637396751</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1682637396751</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,6 +261,7 @@
     <MESSAGE value="Added some logging." />
     <MESSAGE value="Added core algebra." />
     <MESSAGE value="Created a playground object to run algebra." />
-    <option name="LAST_COMMIT_MESSAGE" value="Created a playground object to run algebra." />
+    <MESSAGE value="Full CRUD app." />
+    <option name="LAST_COMMIT_MESSAGE" value="Full CRUD app." />
   </component>
 </project>
