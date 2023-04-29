@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Refactored added to config.">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/AppConfig.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/PostgresConfig.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/Database.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/PostFixture.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/JobRoutesSpec.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +74,7 @@
       <recent name="com.social" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Application">
+  <component name="RunManager" selected="ScalaTest.JobRoutesSpec">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.social.Application" />
       <module name="typelevel-project" />
@@ -131,8 +127,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="JobRoutesSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="typelevel-project" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Class" />
+      <option name="testClassPath" value="com.social.http.routes.JobRoutesSpec" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="ScalaTest.JobRoutesSpec" />
         <item itemvalue="Application.Application" />
         <item itemvalue="Application.PostPlayground" />
         <item itemvalue="Application.SimplePlayground" />
@@ -171,6 +181,8 @@
       <workItem from="1682608799420" duration="2276000" />
       <workItem from="1682636932973" duration="4306000" />
       <workItem from="1682688577522" duration="1131000" />
+      <workItem from="1682721737350" duration="16000" />
+      <workItem from="1682777954744" duration="7577000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -235,7 +247,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682637396751</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Refactored added to config.">
+      <created>1682721747553</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1682721747553</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -262,6 +281,7 @@
     <MESSAGE value="Added core algebra." />
     <MESSAGE value="Created a playground object to run algebra." />
     <MESSAGE value="Full CRUD app." />
-    <option name="LAST_COMMIT_MESSAGE" value="Full CRUD app." />
+    <MESSAGE value="Refactored added to config." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored added to config." />
   </component>
 </project>
