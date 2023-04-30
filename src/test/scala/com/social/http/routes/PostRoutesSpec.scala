@@ -19,7 +19,7 @@ import org.scalatest.matchers.should.Matchers.shouldBe
 
 import java.util.UUID
 
-class JobRoutesSpec
+class PostRoutesSpec
   extends AsyncFreeSpec
   with AsyncIOSpec
   with Matchers
