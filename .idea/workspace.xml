@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Testing posts http api.">
-      <change afterPath="$PROJECT_DIR$/src/test/resources/sql/Posts.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/DoobieSpec.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/PostsSpec.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Testing Posts.scala.">
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/responses/Responses.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/validation/Syntax.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/validation/Validators.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/JobRoutesSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/PostRoutesSpec.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/config/syntax.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/Syntax.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/logging/syntax.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/logging/Syntax.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,30 +49,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/tim/IdeaProjects/typelevel/src/main/scala/com/social/http/routes",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tim/IdeaProjects/typelevel/src/main/scala/com/social/http/routes&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/scala/com/social/http/routes" />
@@ -188,7 +191,13 @@
       <workItem from="1682688577522" duration="1131000" />
       <workItem from="1682721737350" duration="16000" />
       <workItem from="1682777954744" duration="10202000" />
-      <workItem from="1682856192879" duration="4980000" />
+      <workItem from="1682856192879" duration="7236000" />
+      <workItem from="1682889573952" duration="2478000" />
+      <workItem from="1682978750184" duration="4720000" />
+      <workItem from="1682983708486" duration="1355000" />
+      <workItem from="1682985247348" duration="1291000" />
+      <workItem from="1682988689317" duration="3594000" />
+      <workItem from="1682993488699" duration="757000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -267,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682789153060</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Testing Posts.scala.">
+      <created>1682863890218</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682863890218</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,6 +312,7 @@
     <MESSAGE value="Full CRUD app." />
     <MESSAGE value="Refactored added to config." />
     <MESSAGE value="Testing posts http api." />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing posts http api." />
+    <MESSAGE value="Testing Posts.scala." />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing Posts.scala." />
   </component>
 </project>

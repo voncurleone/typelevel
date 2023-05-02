@@ -15,10 +15,12 @@ import org.http4s.server.*
 import java.util.UUID
 import scala.collection.mutable
 import org.typelevel.log4cats.Logger
-import com.social.logging.syntax.*
+import com.social.logging.Syntax.*
+
+import com.social.http.validation.Syntax.*
 
 //uuid => 11111111-1111-1111-1111-111111111111
-class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F]) extends Http4sDsl[F] {
+class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F]) extends HttpValidationDsl[F] {
 
   //POST /posts?offset=x&limit=y { filters } //todo: add query params and filters
   private val allPostsRoute: HttpRoutes[F] = HttpRoutes.of[F] {
@@ -40,28 +42,31 @@ class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F]) extends Ht
 
   //POST /posts { jobInfo }
   private val createPostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case request @ POST -> Root / "create" => for {
-      _ <- Logger[F].info("Creating post: simple log example")
+    case request @ POST -> Root / "create" =>
+      request.validate[PostInfo] { postInfo =>
+        for {
+          _ <- Logger[F].info("Creating post: simple log example")
 
-      postInfo <- request.as[PostInfo].log(
-        a => s"Creating post: $a",
-        e => s"Error creating post: $e"
-      )
-
-      postId <- posts.create("todo@todo.com", postInfo)
-      response <- Created(postId)
-    } yield response
+          postId <- posts.create("todo@todo.com", postInfo).log(
+            a => s"Creating post: $a",
+            e => s"Error creating post: $e"
+          )
+          response <- Created(postId)
+        } yield response
+      }
   }
 
   //PUT /posts/uuid { jobInfo }
   private val updatePostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case request @ PUT -> Root / UUIDVar(id) => for {
-      postInfo <- request.as[PostInfo]
-      newPost <- posts.update(id, postInfo)//.logError(e => s"Error updating post: $e")
-      response <- newPost match
-        case Some(post) => Ok()
-        case None => NotFound(s"Can't update post $id: post not found.")
-    } yield response
+    case request @ PUT -> Root / UUIDVar(id) =>
+      request.validate[PostInfo] { postInfo =>
+        for {
+          newPost <- posts.update(id, postInfo) //.logError(e => s"Error updating post: $e")
+          response <- newPost match
+            case Some(post) => Ok()
+            case None => NotFound(s"Can't update post $id: post not found.")
+        } yield response
+      }
   }
 
   //DELETE /posts/uuid

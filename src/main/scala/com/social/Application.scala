@@ -9,7 +9,7 @@ import cats.*
 import cats.effect.*
 import cats.effect.{IO, IOApp}
 import com.social.config.{AppConfig, EmberConfig}
-import com.social.config.syntax.*
+import com.social.config.Syntax.*
 import com.social.http.routes.HealthRoutes
 import com.social.modules.*
 import org.typelevel.log4cats.Logger

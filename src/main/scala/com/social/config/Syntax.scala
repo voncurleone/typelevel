@@ -7,7 +7,7 @@ import pureconfig.{ConfigReader, ConfigSource}
 
 import scala.reflect.ClassTag
 
-object syntax {
+object Syntax {
   extension(source: ConfigSource) {
     def loadF[F[_], A](using reader: ConfigReader[A], F: MonadThrow[F], tag: ClassTag[A]): F[A] = {
       F.pure(source.load[A]).flatMap {
