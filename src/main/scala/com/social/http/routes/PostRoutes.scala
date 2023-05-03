@@ -6,7 +6,8 @@ import cats.*
 import cats.effect.kernel.Concurrent
 import cats.implicits.*
 import com.social.core.Posts
-import com.social.domain.Post.{Post, PostInfo}
+import com.social.domain.pagination.Pagination
+import com.social.domain.post.{Post, PostFilter, PostInfo}
 import org.http4s.*
 import org.http4s.dsl.*
 import org.http4s.dsl.impl.*
@@ -16,16 +17,19 @@ import java.util.UUID
 import scala.collection.mutable
 import org.typelevel.log4cats.Logger
 import com.social.logging.Syntax.*
-
 import com.social.http.validation.Syntax.*
 
 //uuid => 11111111-1111-1111-1111-111111111111
 class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F]) extends HttpValidationDsl[F] {
 
-  //POST /posts?offset=x&limit=y { filters } //todo: add query params and filters
+  object OffsetQueryParam extends OptionalQueryParamDecoderMatcher[Int]("offset")
+  object LimitQueryParam extends OptionalQueryParamDecoderMatcher[Int]("limit")
+
+  //POST /posts?limit=x&offset=y { filters } 
   private val allPostsRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case POST -> Root => for {
-      postList <- posts.all()
+    case request @ POST -> Root :? LimitQueryParam(limit) +& OffsetQueryParam(offset) => for {
+      filters <- request.as[PostFilter]
+      postList <- posts.all(filters, Pagination(limit, offset))
       response <- Ok(postList)
     } yield response
   }

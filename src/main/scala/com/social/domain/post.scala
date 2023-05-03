@@ -2,7 +2,7 @@ package com.social.domain
 
 import java.util.UUID
 
-object Post {
+object post {
   case class Post(
                  id: UUID,
                  date: Long,
@@ -24,4 +24,12 @@ object Post {
     def minimal(text: String, likes: Int, disLikes: Int): PostInfo = 
       PostInfo(text, likes, disLikes, None, None)
   }
+
+  final case class PostFilter(
+      text: List[String] = List(),
+      likes: Option[Int] = None,
+      dislikes: Option[Int] = None,
+      tags: List[String] = List(),
+      hidden: Boolean = false
+                             )
 }

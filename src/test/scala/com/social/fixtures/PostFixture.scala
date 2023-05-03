@@ -1,7 +1,7 @@
 package com.social.fixtures
 
 import cats.syntax.all.*
-import com.social.domain.Post.{Post, PostInfo}
+import com.social.domain.post.{Post, PostInfo}
 
 import java.util.UUID
 

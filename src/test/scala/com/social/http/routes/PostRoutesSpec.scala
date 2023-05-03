@@ -4,7 +4,7 @@ import cats.effect.*
 import cats.implicits.*
 import cats.effect.testing.scalatest.AsyncIOSpec
 import com.social.core.Posts
-import com.social.domain.Post.{Post, PostInfo}
+import com.social.domain.post.{Post, PostInfo}
 import com.social.fixtures.PostFixture
 import org.http4s.{HttpRoutes, Method, Request, Status}
 import org.http4s.dsl.Http4sDsl

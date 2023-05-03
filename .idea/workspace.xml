@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Testing Posts.scala.">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/responses/Responses.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/validation/Syntax.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/validation/Validators.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Implemented payload validation.">
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/pagination.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/config/syntax.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/Syntax.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/core/Posts.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Posts.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/domain/Post.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/post.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/logging/syntax.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/logging/Syntax.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/validation/Validators.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/validation/Validators.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/playground/PostPlayground.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/playground/PostPlayground.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/PostFixture.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/PostFixture.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/PostRoutesSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/PostRoutesSpec.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,6 +199,8 @@
       <workItem from="1682985247348" duration="1291000" />
       <workItem from="1682988689317" duration="3594000" />
       <workItem from="1682993488699" duration="757000" />
+      <workItem from="1682994258994" duration="404000" />
+      <workItem from="1683054486023" duration="11905000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -283,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682863890218</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Implemented payload validation.">
+      <created>1682994635040</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1682994635040</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,6 +323,7 @@
     <MESSAGE value="Refactored added to config." />
     <MESSAGE value="Testing posts http api." />
     <MESSAGE value="Testing Posts.scala." />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing Posts.scala." />
+    <MESSAGE value="Implemented payload validation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented payload validation." />
   </component>
 </project>

@@ -4,7 +4,7 @@ import cats.*
 import cats.data.*
 import cats.data.Validated.*
 import cats.implicits.*
-import com.social.domain.Post.PostInfo
+import com.social.domain.post.PostInfo
 
 import java.net.URL
 import scala.util.{Failure, Success, Try}

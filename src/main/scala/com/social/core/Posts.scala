@@ -3,29 +3,40 @@ package com.social.core
 import cats.*
 import cats.effect.kernel.{MonadCancelThrow, Resource}
 import cats.implicits.*
-import com.social.domain.Post.{Post, PostInfo}
+import com.social.domain.pagination.Pagination
+import com.social.domain.post.{Post, PostFilter, PostInfo}
+import com.social.logging.Syntax.*
 import doobie.*
 import doobie.implicits.*
 import doobie.postgres.implicits.*
 import doobie.util.*
+import org.typelevel.log4cats.Logger
 
 import java.util.UUID
 
 trait Posts[F[_]] {
   def create(ownerEmail: String, postInfo: PostInfo):  F[UUID]
   def all(): F[List[Post]]
+  def all(filters: PostFilter, pagination: Pagination): F[List[Post]]
   def find(id: UUID): F[Option[Post]]
   def update(id: UUID, postInfo: PostInfo): F[Option[Post]]
   def hide(id: UUID): F[Int]
   def delete(id: UUID): F[Int]
 }
 
-class LivePosts[F[_]: MonadCancelThrow] private(xa: Transactor[F]) extends Posts[F] {
+class LivePosts[F[_]: MonadCancelThrow: Logger] private(xa: Transactor[F]) extends Posts[F] {
   override def create(ownerEmail: String, postInfo: PostInfo): F[UUID] =
     PostFragments.create(ownerEmail, postInfo).update.withUniqueGeneratedKeys[UUID]("id").transact(xa)
 
   override def all(): F[List[Post]] =
     PostFragments.all.query[Post].to[List].transact(xa)
+
+  override def all(filters: PostFilter, pagination: Pagination): F[List[Post]] =
+    val statement = PostFragments.allFilters(filters, pagination)
+
+    Logger[F].info(statement.toString) *>
+    statement.query[Post].to[List].transact(xa)
+      .logError( e => s"Failed query ${e.getMessage}" )
 
   override def find(id: UUID): F[Option[Post]] =
     PostFragments.find(id).query[Post].option.transact(xa)
@@ -90,7 +101,7 @@ object LivePosts{
   }
 
   //creation of live jobs is could be an effect full operation, wrap it in F
-  def apply[F[_]: MonadCancelThrow](xa: Transactor[F]): F[LivePosts[F]] = new LivePosts[F](xa).pure[F]
+  def apply[F[_]: MonadCancelThrow: Logger](xa: Transactor[F]): F[LivePosts[F]] = new LivePosts[F](xa).pure[F]
   //another way to write the apply method
   //def apply[F[_]: Applicative]: Resource[F, LivePosts[F]] = ???
 }
@@ -110,6 +121,42 @@ object PostFragments {
             hidden
        FROM posts
        """
+
+  def allFilters(filters: PostFilter, pagination: Pagination): Fragment = {
+    val selectFragment =
+      fr"""
+       SELECT
+            id,
+            date,
+            email,
+            text,
+            likes,
+            disLikes,
+            tags,
+            image,
+            hidden
+       """
+
+    val fromFragment =
+      fr"FROM posts"
+
+    val whereFragment =
+      Fragments.whereAndOpt(
+        filters.text.toNel.map( text => Fragments.in(fr"text", text)), //Option["WHERE text in $text"]
+        filters.likes.map( likes => fr"likes > $likes"),
+        filters.dislikes.map( dislikes => fr"dislikes > $dislikes"),
+        filters.tags.toNel.map( tags =>
+          Fragments.or(tags.toList.map(tag => fr"$tag = any(tags)"): _*)
+        ),
+        filters.hidden.some.map( hidden => fr"hidden = $hidden")
+      )
+
+    val paginationFragment =
+      fr"ORDER by id LIMIT ${pagination.limit} OFFSET ${pagination.offset}"
+
+    val statement = selectFragment |+| fromFragment |+| whereFragment |+| paginationFragment
+    statement
+  }
 
   def find(id: UUID): Fragment =
     sql"""

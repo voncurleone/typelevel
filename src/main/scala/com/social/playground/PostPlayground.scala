@@ -2,15 +2,19 @@ package com.social.playground
 
 import cats.effect.*
 import com.social.core.*
-import com.social.domain.Post.PostInfo
+import com.social.domain.post.PostInfo
 import doobie.*
 import doobie.implicits.*
 import doobie.util.*
 import doobie.hikari.HikariTransactor
+import org.typelevel.log4cats.Logger
+import org.typelevel.log4cats.slf4j.Slf4jLogger
 
 import scala.io.StdIn
 
 object PostPlayground extends IOApp.Simple {
+
+  given logger: Logger[IO] = Slf4jLogger.getLogger[IO]
 
   val postgre: Resource[IO, HikariTransactor[IO]] = for {
     ec <- ExecutionContexts.fixedThreadPool(32)
