@@ -11,5 +11,7 @@ object pagination {
         limit.getOrElse(defaultPageSize),
         offset.getOrElse(0)
       )
+
+    def default = new Pagination(defaultPageSize, 0)
   }
 }

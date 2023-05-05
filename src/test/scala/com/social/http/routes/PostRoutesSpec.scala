@@ -4,7 +4,8 @@ import cats.effect.*
 import cats.implicits.*
 import cats.effect.testing.scalatest.AsyncIOSpec
 import com.social.core.Posts
-import com.social.domain.post.{Post, PostInfo}
+import com.social.domain.pagination.Pagination
+import com.social.domain.post.{Post, PostFilter, PostInfo}
 import com.social.fixtures.PostFixture
 import org.http4s.{HttpRoutes, Method, Request, Status}
 import org.http4s.dsl.Http4sDsl
@@ -32,6 +33,10 @@ class PostRoutesSpec
     def create(ownerEmail: String, postInfo: PostInfo): IO[UUID] = IO.pure(NewPostUuid)
 
     def all(): IO[List[Post]] = IO.pure(List(AwesomePost))
+
+    def all(filters: PostFilter, pagination: Pagination): IO[List[Post]] =
+      if filters.hidden then IO.pure(List())
+      else IO.pure(List(AwesomePost))
 
     def find(id: UUID): IO[Option[Post]] =
       if id == AwesomePostUuid then IO.pure(Some(AwesomePost))
@@ -75,12 +80,28 @@ class PostRoutesSpec
         //simulate an http request
         response <- postRoutes.orNotFound.run {
           Request(method = Method.POST, uri = uri"/posts")
+            .withEntity(PostFilter())
         }
 
         retrieved <- response.as[List[Post]]
       } yield {
         response.status shouldBe Status.Ok
         retrieved shouldBe List(AwesomePost)
+      }
+    }
+
+    "should return all posts that satisfy a filter" in {
+      for {
+        //simulate an http request
+        response <- postRoutes.orNotFound.run {
+          Request(method = Method.POST, uri = uri"/posts")
+            .withEntity(PostFilter(hidden = true))
+        }
+
+        retrieved <- response.as[List[Post]]
+      } yield {
+        response.status shouldBe Status.Ok
+        retrieved shouldBe List()
       }
     }
 

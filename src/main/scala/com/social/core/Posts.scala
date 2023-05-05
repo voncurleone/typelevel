@@ -146,7 +146,7 @@ object PostFragments {
         filters.likes.map( likes => fr"likes > $likes"),
         filters.dislikes.map( dislikes => fr"dislikes > $dislikes"),
         filters.tags.toNel.map( tags =>
-          Fragments.or(tags.toList.map(tag => fr"$tag = any(tags)"): _*)
+          Fragments.and(tags.toList.map(tag => fr"$tag = any(tags)"): _*) //switched to and so a post must have all tags in the filter
         ),
         filters.hidden.some.map( hidden => fr"hidden = $hidden")
       )

@@ -5,9 +5,12 @@ import org.scalatest.freespec.AsyncFreeSpec
 import org.scalatest.matchers.should.Matchers
 import com.social.fixtures.PostFixture
 import cats.effect.*
+import com.social.domain.pagination.Pagination
+import com.social.domain.post.PostFilter
 import doobie.implicits.*
 import doobie.postgres.implicits.*
-
+import org.typelevel.log4cats.Logger
+import org.typelevel.log4cats.slf4j.Slf4jLogger
 
 class PostsSpec
   extends AsyncFreeSpec
@@ -16,6 +19,7 @@ class PostsSpec
   with PostFixture
   with DoobieSpec {
   override val initScript: String = "sql/Posts.sql"
+  given logger: Logger[IO] = Slf4jLogger.getLogger[IO]
 
   "Post algebra" - {
     "should return no post if the id does not exist" in {
@@ -90,7 +94,7 @@ class PostsSpec
         val program = for {
           posts <- LivePosts[IO](xa)
           postsDeleted <- posts.delete(AwesomePostUuid)
-          postsCount <- sql"SELECT COUNT(*) FROM posts WHERE id = ${AwesomePostUuid}"
+          postsCount <- sql"SELECT COUNT(*) FROM posts WHERE id = $AwesomePostUuid"
             .query[Int]
             .unique.
             transact(xa)
@@ -108,7 +112,7 @@ class PostsSpec
         val program = for {
           posts <- LivePosts[IO](xa)
           postsDeleted <- posts.delete(NotFoundPostUuid)
-          postsCount <- sql"SELECT COUNT(*) FROM posts WHERE id = ${AwesomePostUuid}"
+          postsCount <- sql"SELECT COUNT(*) FROM posts WHERE id = $AwesomePostUuid"
             .query[Int]
             .unique.
             transact(xa)
@@ -118,6 +122,72 @@ class PostsSpec
           postsDeleted shouldBe 0
           postsCount shouldBe 1
         }
+      }
+    }
+
+    "should filter on hidden == false" in {
+      transactor.use { xa =>
+        val program = for {
+          posts <- LivePosts[IO](xa)
+          filteredPosts <- posts.all(PostFilter(), Pagination.default)
+        } yield filteredPosts
+
+        program.asserting(_ shouldBe List(AwesomePost))
+      }
+    }
+
+    "should filter on hidden == ture" in {
+      transactor.use { xa =>
+        val program = for {
+          posts <- LivePosts[IO](xa)
+          filteredPosts <- posts.all(PostFilter(hidden = true), Pagination.default)
+        } yield filteredPosts
+
+        program.asserting(_ shouldBe List())
+      }
+    }
+
+    "should filter on a tag and find" in {
+      transactor.use { xa =>
+        val program = for {
+          posts <- LivePosts[IO](xa)
+          filteredPosts <- posts.all(PostFilter(tags = List("tag2")), Pagination.default)
+        } yield filteredPosts
+
+        program.asserting(_ shouldBe List(AwesomePost))
+      }
+    }
+
+    "should filter on multiple tags and find" in {
+      transactor.use { xa =>
+        val program = for {
+          posts <- LivePosts[IO](xa)
+          filteredPosts <- posts.all(PostFilter(tags = List("tag2", "tag1")), Pagination.default)
+        } yield filteredPosts
+
+        program.asserting(_ shouldBe List(AwesomePost))
+      }
+    }
+
+    "should filter on a tag and find none" in {
+      transactor.use { xa =>
+        val program = for {
+          posts <- LivePosts[IO](xa)
+          filteredPosts <- posts.all(PostFilter(tags = List("tag3")), Pagination.default)
+        } yield filteredPosts
+
+        program.asserting(_ shouldBe List())
+      }
+    }
+
+    "should filter on multiple tags and find none" in {
+      transactor.use { xa =>
+        val program = for {
+          posts <- LivePosts[IO](xa)
+          filteredPosts <- posts.all(PostFilter(tags = List("tag2", "tag3")), Pagination.default)
+        } yield filteredPosts
+
+        program.asserting(_ shouldBe List())
       }
     }
   }
