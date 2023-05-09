@@ -16,8 +16,8 @@ class PostsSpec
   extends AsyncFreeSpec
   with AsyncIOSpec
   with Matchers
-  with PostFixture
-  with DoobieSpec {
+  with DoobieSpec
+  with PostFixture {
   override val initScript: String = "sql/Posts.sql"
   given logger: Logger[IO] = Slf4jLogger.getLogger[IO]
 
