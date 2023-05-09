@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Added testing for filtering and pagination in all query.">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Users.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/sql/users.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/UserSpec.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/UserFixture.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/core/PostsSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/PostsSpec.scala" afterDir="false" />
-    </list>
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Implemented Users." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -207,7 +199,7 @@
       <workItem from="1683376514947" duration="7263000" />
       <workItem from="1683491806159" duration="3280000" />
       <workItem from="1683568788478" duration="6000" />
-      <workItem from="1683637436758" duration="10293000" />
+      <workItem from="1683637436758" duration="10596000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -314,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683290677951</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Implemented Users.">
+      <created>1683674503788</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1683674503788</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -347,6 +346,7 @@
     <MESSAGE value="Implemented payload validation." />
     <MESSAGE value="Added filtering and pagination to all query." />
     <MESSAGE value="Added testing for filtering and pagination in all query." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added testing for filtering and pagination in all query." />
+    <MESSAGE value="Implemented Users." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Users." />
   </component>
 </project>
