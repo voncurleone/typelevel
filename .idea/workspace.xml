@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Implemented Users." />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Added users table to database init script.">
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/auth.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/security.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/playground/PasswordHashingPlayground.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/AuthSpec.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/UserFixture.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/UserFixture.scala" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,13 +83,13 @@
       <recent name="com.social" />
     </key>
   </component>
-  <component name="RunManager" selected="ScalaTest.UserSpec">
-    <configuration name="Application" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.social.Application" />
+  <component name="RunManager" selected="ScalaTest.AuthSpec">
+    <configuration name="PasswordHashingPlayground" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.social.playground.PasswordHashingPlayground" />
       <module name="typelevel-project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.social.*" />
+          <option name="PATTERN" value="com.social.playground.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -88,7 +97,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JobRoutesSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+    <configuration name="AuthSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="typelevel-project" />
       <option name="allowRunningInParallel" value="false" />
       <option name="projectPathOnTarget" />
@@ -96,7 +105,7 @@
         <list />
       </option>
       <option name="testKind" value="Class" />
-      <option name="testClassPath" value="com.social.http.routes.JobRoutesSpec" />
+      <option name="testClassPath" value="com.social.core.AuthSpec" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -142,11 +151,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="ScalaTest.AuthSpec" />
+        <item itemvalue="Application.PasswordHashingPlayground" />
         <item itemvalue="ScalaTest.UserSpec" />
         <item itemvalue="ScalaTest.PostsSpec" />
         <item itemvalue="ScalaTest.PostRoutesSpec" />
-        <item itemvalue="ScalaTest.JobRoutesSpec" />
-        <item itemvalue="Application.Application" />
       </list>
     </recent_temporary>
   </component>
@@ -200,6 +209,8 @@
       <workItem from="1683491806159" duration="3280000" />
       <workItem from="1683568788478" duration="6000" />
       <workItem from="1683637436758" duration="10596000" />
+      <workItem from="1683674621059" duration="130000" />
+      <workItem from="1683728083917" duration="11179000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -313,7 +324,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683674503788</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Added users table to database init script.">
+      <created>1683674709027</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1683674709027</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -347,6 +365,7 @@
     <MESSAGE value="Added filtering and pagination to all query." />
     <MESSAGE value="Added testing for filtering and pagination in all query." />
     <MESSAGE value="Implemented Users." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented Users." />
+    <MESSAGE value="Added users table to database init script." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added users table to database init script." />
   </component>
 </project>

@@ -11,6 +11,15 @@ object user {
       lastName: Option[String],
       role: Role
                  )
+
+  final case class NewUserInfo(
+      email: String,
+      handle: String,
+      hashedPass: String,
+      firstName: Option[String],
+      lastName: Option[String],
+                          )
+
   enum Role {
     case ADMIN, USER, GUEST
   }
