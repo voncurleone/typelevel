@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Added users table to database init script.">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/auth.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/security.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/playground/PasswordHashingPlayground.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/AuthSpec.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Auth api TDD style.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/playground/PasswordHashingPlayground.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/playground/PasswordHashingPlayground.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/sql/users.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/sql/users.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/core/UserSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/UserSpec.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/UserFixture.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/UserFixture.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -210,7 +209,8 @@
       <workItem from="1683568788478" duration="6000" />
       <workItem from="1683637436758" duration="10596000" />
       <workItem from="1683674621059" duration="130000" />
-      <workItem from="1683728083917" duration="11179000" />
+      <workItem from="1683728083917" duration="15440000" />
+      <workItem from="1683758464603" duration="5954000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -331,7 +331,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683674709027</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Auth api TDD style.">
+      <created>1683753957069</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1683753957069</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -366,6 +373,7 @@
     <MESSAGE value="Added testing for filtering and pagination in all query." />
     <MESSAGE value="Implemented Users." />
     <MESSAGE value="Added users table to database init script." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added users table to database init script." />
+    <MESSAGE value="Auth api TDD style." />
+    <option name="LAST_COMMIT_MESSAGE" value="Auth api TDD style." />
   </component>
 </project>

@@ -20,7 +20,7 @@ INSERT INTO users(
 ) VALUES (
     'person@domain.com',
     'person',
-    'password',
+    '$2a$10$0w0m2PIznul0M84rn6cRk.gUc28LrMJTHEM9UVzEMnjJdjtnrtE/C',
     'per',
     'son',
     'USER'
@@ -36,7 +36,7 @@ INSERT INTO users(
 ) VALUES (
     'admin@domain.com',
     'admin',
-    'secure password',
+    '$2a$10$bdA2ei/ZxQM4MEOxg1ihp.98Utpne1jLou2J8Yl4rRrndJ8LzznU6',
     'ad',
     'min',
     'ADMIN'

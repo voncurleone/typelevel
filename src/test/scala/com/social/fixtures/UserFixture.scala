@@ -6,7 +6,7 @@ trait UserFixture {
   val person = User(
     "person@domain.com",
     "person",
-    "password",
+    "$2a$10$0w0m2PIznul0M84rn6cRk.gUc28LrMJTHEM9UVzEMnjJdjtnrtE/C",
     Some("per"),
     Some("son"),
     Role.USER
@@ -17,7 +17,7 @@ trait UserFixture {
   val updatedPerson = User(
     "person@domain.com",
     "person",
-    "updated pass",
+    "$2a$10$b7vUYCcN.BpOKoBeVju5nOfydf3nGYPutXiQ/4Ix9CKvuhESMU8V.",
     Some("per"),
     Some("son"),
     Role.USER
@@ -26,7 +26,7 @@ trait UserFixture {
   val admin = User(
     "admin@domain.com",
     "admin",
-    "secure password",
+    "$2a$10$bdA2ei/ZxQM4MEOxg1ihp.98Utpne1jLou2J8Yl4rRrndJ8LzznU6",
     Some("ad"),
     Some("min"),
     Role.ADMIN
@@ -37,7 +37,7 @@ trait UserFixture {
   val newUser = User(
     "newuser@domain.com",
     "newuser",
-    "pass",
+    "$2a$10$MQXtG7RpZ085HgQIt0AQd.4xSdMTbSqudZ17vpF42x6w3hjaa6lRq",
     None,
     None,
     Role.USER

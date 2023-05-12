@@ -98,7 +98,7 @@ class UserSpec
       transactor.use { xa =>
         val program = for {
           users <- LiveUsers[IO](xa)
-          result <- users.update(person.copy(hashedPass = "updated pass"))
+          result <- users.update(person.copy(hashedPass = updatedPerson.hashedPass))
         } yield result
 
         program.asserting(_ shouldBe Some(updatedPerson))
