@@ -25,7 +25,7 @@ object Validators {
     if required(field) then field.validNel
     else EmptyField(fieldName).invalidNel
 
-  def validatUrl(field: String, fieldName: String): ValidationResult[String] =
+  def validateUrl(field: String, fieldName: String): ValidationResult[String] =
     Try(URL(field).toURI) match {
       case Success(_) => field.validNel
       case Failure(_) => InvalidUrl(fieldName).invalidNel
