@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Auth api implemented.">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/AuthRoutes.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Auth http api stubs.">
+      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/validation/Validators.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/validation/Validators.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/AuthRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/AuthRoutes.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/UserFixture.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/UserFixture.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +79,7 @@
       <recent name="com.social" />
     </key>
   </component>
-  <component name="RunManager" selected="ScalaTest.AuthSpec">
+  <component name="RunManager" selected="ScalaTest.AuthRoutesSpec">
     <configuration name="PasswordHashingPlayground" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.social.playground.PasswordHashingPlayground" />
       <module name="typelevel-project" />
@@ -92,6 +93,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AuthRoutesSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="typelevel-project" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Class" />
+      <option name="testClassPath" value="com.social.http.routes.AuthRoutesSpec" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AuthSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="typelevel-project" />
       <option name="allowRunningInParallel" value="false" />
@@ -101,19 +115,6 @@
       </option>
       <option name="testKind" value="Class" />
       <option name="testClassPath" value="com.social.core.AuthSpec" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PostRoutesSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
-      <module name="typelevel-project" />
-      <option name="allowRunningInParallel" value="false" />
-      <option name="projectPathOnTarget" />
-      <option name="selectedOptions">
-        <list />
-      </option>
-      <option name="testKind" value="Class" />
-      <option name="testClassPath" value="com.social.http.routes.PostRoutesSpec" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -146,11 +147,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="ScalaTest.AuthRoutesSpec" />
         <item itemvalue="ScalaTest.AuthSpec" />
         <item itemvalue="Application.PasswordHashingPlayground" />
         <item itemvalue="ScalaTest.UserSpec" />
         <item itemvalue="ScalaTest.PostsSpec" />
-        <item itemvalue="ScalaTest.PostRoutesSpec" />
       </list>
     </recent_temporary>
   </component>
@@ -211,6 +212,8 @@
       <workItem from="1683894808841" duration="1271000" />
       <workItem from="1683896103800" duration="4327000" />
       <workItem from="1683911153017" duration="302000" />
+      <workItem from="1684063479726" duration="311000" />
+      <workItem from="1684063799273" duration="5515000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -345,7 +348,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683853315419</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Auth http api stubs.">
+      <created>1684063780534</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1684063780534</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -382,6 +392,7 @@
     <MESSAGE value="Added users table to database init script." />
     <MESSAGE value="Auth api TDD style." />
     <MESSAGE value="Auth api implemented." />
-    <option name="LAST_COMMIT_MESSAGE" value="Auth api implemented." />
+    <MESSAGE value="Auth http api stubs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Auth http api stubs." />
   </component>
 </project>

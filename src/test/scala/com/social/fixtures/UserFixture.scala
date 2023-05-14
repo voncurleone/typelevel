@@ -11,8 +11,17 @@ trait UserFixture {
     Some("son"),
     Role.USER
   )
+  
+  val newUserPerson = NewUserInfo(
+    "person@domain.com",
+    "person",
+    "password",
+    Some("per"),
+    Some("son")
+  )
 
   val personEmail = "person@domain.com"
+  val personPass = "password"
 
   val updatedPerson = User(
     "person@domain.com",
@@ -31,8 +40,17 @@ trait UserFixture {
     Some("min"),
     Role.ADMIN
   )
+  
+  val newUserAdmin = NewUserInfo(
+    "admin@domain.com",
+    "admin",
+    "secure password",
+    Some("ad"),
+    Some("min")
+  )
 
   val adminEmail = "admin@domain.com"
+  val adminPass = "secure password"
   
   val newUser = User(
     "newuser@domain.com",
