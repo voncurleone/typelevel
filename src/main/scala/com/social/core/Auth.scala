@@ -16,10 +16,12 @@ trait Auth[F[_]] {
   def login(email: String, password: String): F[Option[JwtToken]]
   def signUp(userInfo: NewUserInfo): F[Option[User]]
   def changePassword(email: String, passwordInfo: NewPasswordInfo): F[Either[String, Option[User]]]
+  def authenticator: Authenticator[F]
   //todo: password recovery via email
 }
 
-class LiveAuth[F[_]: Async: Logger] private(users: Users[F], authenticator: Authenticator[F]) extends Auth[F] {
+class LiveAuth[F[_]: Async: Logger] private
+(users: Users[F], override  val authenticator: Authenticator[F]) extends Auth[F] {
   override def login(email: String, password: String): F[Option[JwtToken]] =
     for {
       userOption <- users.find(email)

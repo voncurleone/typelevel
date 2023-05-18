@@ -66,10 +66,22 @@ class AuthRoutesSpec
   }
 
   val mockedAuth = new Auth[IO] {
-    //make sure only person exists
-    override def signUp(userInfo: user.NewUserInfo): IO[Option[user.User]] = ???
-    override def login(email: String, password: String): IO[Option[JwtToken]] = ???
-    override def changePassword(email: String, passwordInfo: auth.NewPasswordInfo): IO[Either[String, Option[user.User]]] = ???
+    override def signUp(userInfo: user.NewUserInfo): IO[Option[user.User]] =
+      if userInfo.email == adminEmail then IO.pure(Some(admin))
+      else IO.pure(None)
+
+    override def login(email: String, password: String): IO[Option[JwtToken]] =
+      if email == personEmail && password == personPass then
+        mockedAuthenticator.create(personEmail).map(Some(_))
+      else IO.pure(None)
+
+    override def changePassword(email: String, passwordInfo: auth.NewPasswordInfo): IO[Either[String, Option[user.User]]] =
+      if email == personEmail then
+        if passwordInfo.oldPassword == personPass then IO.pure(Right(Some(person)))
+        else IO.pure(Left("Invalid password"))
+      else IO.pure(Right(None))
+
+    override def authenticator: Authenticator[IO] = mockedAuthenticator
   }
 
   val authRoutes = AuthRoutes[IO](mockedAuth).routes
