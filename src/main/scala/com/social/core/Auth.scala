@@ -16,12 +16,13 @@ trait Auth[F[_]] {
   def login(email: String, password: String): F[Option[JwtToken]]
   def signUp(userInfo: NewUserInfo): F[Option[User]]
   def changePassword(email: String, passwordInfo: NewPasswordInfo): F[Either[String, Option[User]]]
+  def delete(email: String): F[Boolean]
   def authenticator: Authenticator[F]
   //todo: password recovery via email
 }
 
 class LiveAuth[F[_]: Async: Logger] private
-(users: Users[F], override  val authenticator: Authenticator[F]) extends Auth[F] {
+(users: Users[F], override val authenticator: Authenticator[F]) extends Auth[F] {
   override def login(email: String, password: String): F[Option[JwtToken]] =
     for {
       userOption <- users.find(email)
@@ -67,6 +68,9 @@ class LiveAuth[F[_]: Async: Logger] private
       if isValidPass then updateUser(user, passwordInfo.newPassword).map(Right(_))
       else Left("Invalid password").pure[F]
   } yield updateResult
+
+  override def delete(email: String): F[Boolean] =
+    users.delete(email)
 }
 
 object LiveAuth {

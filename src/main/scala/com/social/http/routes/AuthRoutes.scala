@@ -5,7 +5,7 @@ import cats.implicits.*
 import com.social.http.validation.Syntax.HttpValidationDsl
 import com.social.core.Auth
 import com.social.domain.auth.{LoginInfo, NewPasswordInfo}
-import com.social.domain.security.{AuthRoute, JwtToken}
+import com.social.domain.security.*
 import org.http4s.{HttpRoutes, Response, Status}
 import org.http4s.server.Router
 import org.typelevel.log4cats.Logger
@@ -14,6 +14,7 @@ import com.social.domain.user.{NewUserInfo, User}
 import com.social.http.responses.Responses.FailureResponse
 import org.http4s.circe.CirceEntityCodec.*
 import tsec.authentication.{SecuredRequestHandler, TSecAuthService, asAuthed}
+import scala.language.implicitConversions
 
 class AuthRoutes[F[_] : Concurrent: Logger] private (auth: Auth[F]) extends HttpValidationDsl[F] {
   private val authenticator = auth.authenticator
@@ -72,9 +73,22 @@ class AuthRoutes[F[_] : Concurrent: Logger] private (auth: Auth[F]) extends Http
       } yield response
   }
 
+  // DELETE /auth/users/person@domain.com
+  private val deleteUserRoute: AuthRoute[F] = {
+    case request @ DELETE -> Root / "users" / email asAuthed user =>
+      auth.delete(email).flatMap {
+        case true => Ok()
+        case false => NotFound()
+      }
+      Ok("fix delete")
+  }
+
   val unauthedRoutes = loginRoute <+> createUserRoute
   val authedRoutes = securedHandler.liftService(
-    TSecAuthService(changePasswordRoute.orElse(logoutRoute))
+    changePasswordRoute.restrictedTo(allRoles) |+|
+    logoutRoute.restrictedTo(allRoles) |+|
+    deleteUserRoute.restrictedTo(adminOnly)
+    //TSecAuthService(changePasswordRoute.orElse(logoutRoute).orElse(deleteUserRoute))
   )
 
   val routes: HttpRoutes[F] = Router(

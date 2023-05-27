@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Auth http api tests.">
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Auth http validation implemented.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/domain/security.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/security.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/AuthRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/AuthRoutes.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" afterDir="false" />
     </list>
@@ -218,7 +219,11 @@
       <workItem from="1684077653824" duration="1000" />
       <workItem from="1684085702824" duration="763000" />
       <workItem from="1684418652746" duration="2131000" />
-      <workItem from="1684444602813" duration="4195000" />
+      <workItem from="1684444602813" duration="4373000" />
+      <workItem from="1684448998344" duration="514000" />
+      <workItem from="1684497166492" duration="956000" />
+      <workItem from="1684780941411" duration="3080000" />
+      <workItem from="1685128874879" duration="6490000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -367,7 +372,21 @@
       <option name="project" value="LOCAL" />
       <updated>1684069526123</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Auth routes implemented.">
+      <created>1684448883481</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1684448883481</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Auth http validation implemented.">
+      <created>1685194611996</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1685194611996</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -406,6 +425,8 @@
     <MESSAGE value="Auth api implemented." />
     <MESSAGE value="Auth http api stubs." />
     <MESSAGE value="Auth http api tests." />
-    <option name="LAST_COMMIT_MESSAGE" value="Auth http api tests." />
+    <MESSAGE value="Auth routes implemented." />
+    <MESSAGE value="Auth http validation implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Auth http validation implemented." />
   </component>
 </project>
