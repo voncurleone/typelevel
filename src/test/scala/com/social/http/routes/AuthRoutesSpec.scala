@@ -9,7 +9,7 @@ import com.social.domain.auth.{LoginInfo, NewPasswordInfo}
 import com.social.domain.security.{Authenticator, JwtToken}
 import com.social.domain.user.{NewUserInfo, User}
 import com.social.domain.{auth, user}
-import com.social.fixtures.UserFixture
+import com.social.fixtures.{SecuredRouteFixture, UserFixture}
 import org.http4s.{AuthScheme, Credentials, HttpRoutes, Method, Request, Status}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.implicits.uri
@@ -33,37 +33,10 @@ class AuthRoutesSpec
   with AsyncIOSpec
   with Matchers
   with Http4sDsl[IO]
-  with UserFixture {
+  with UserFixture
+  with SecuredRouteFixture {
 
   given logger: Logger[IO] = Slf4jLogger.getLogger[IO]
-
-  extension (request: Request[IO]) {
-    def withBearerToken(jwtToken: JwtToken): Request[IO] =
-      request.putHeaders {
-        val jwtString = JWTMac.toEncodedString[IO, HMACSHA256](jwtToken.jwt)
-        Authorization(Credentials.Token(AuthScheme.Bearer, jwtString))
-      }
-  }
-
-  val mockedAuthenticator: Authenticator[IO] = {
-    //key for hashing
-    val key = HMACSHA256.unsafeGenerateKey
-
-    //identity store to retrieve users
-    val idStore: IdentityStore[IO, String, User] = (email: String) =>
-      if (email == personEmail) OptionT.pure(person)
-      else if (email == adminEmail) OptionT.pure(admin)
-      else OptionT.none[IO, User]
-
-    //jwt authenticator
-    JWTAuthenticator.unbacked.inBearerToken(
-      //expiry of token, max idle optional, idStore, key
-      1.day,
-      None,
-      idStore,
-      key
-    )
-  }
 
   val mockedAuth = new Auth[IO] {
     override def signUp(userInfo: user.NewUserInfo): IO[Option[user.User]] =

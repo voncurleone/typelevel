@@ -1,5 +1,6 @@
 package com.social.domain
 
+import com.social.domain.post.Post
 import doobie.Meta
 import tsec.authorization.{AuthGroup, SimpleAuthEnum}
 
@@ -11,7 +12,11 @@ object user {
       firstName: Option[String],
       lastName: Option[String],
       role: Role
-                 )
+                 ) {
+    def owns(post: Post): Boolean = email == post.email
+    def isAdmin: Boolean = role == Role.ADMIN
+    def isUser: Boolean = role == Role.USER
+  }
 
   final case class NewUserInfo(
       email: String,

@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Role based access control implemented.">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/SecurityConfig.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Auth stack integrated.">
+      <change afterPath="$PROJECT_DIR$/src/test/scala/com/social/fixtures/SecuredRouteFixture.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/config/AppConfig.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/AppConfig.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/domain/security.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/security.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/user.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/PostRoutes.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/modules/HttpApi.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/HttpApi.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/core/AuthSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/AuthSpec.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/PostRoutesSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/PostRoutesSpec.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +83,7 @@
       <recent name="com.social" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Application">
+  <component name="RunManager" selected="ScalaTest.PostRoutesSpec">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.social.Application" />
       <module name="typelevel-project" />
@@ -137,7 +136,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+    <configuration name="PostRoutesSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="typelevel-project" />
       <option name="allowRunningInParallel" value="false" />
       <option name="projectPathOnTarget" />
@@ -145,18 +144,18 @@
         <list />
       </option>
       <option name="testKind" value="Class" />
-      <option name="testClassPath" value="com.social.core.UserSpec" />
+      <option name="testClassPath" value="com.social.http.routes.PostRoutesSpec" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="ScalaTest.PostRoutesSpec" />
         <item itemvalue="Application.Application" />
         <item itemvalue="ScalaTest.AuthSpec" />
         <item itemvalue="ScalaTest.AuthRoutesSpec" />
         <item itemvalue="Application.PasswordHashingPlayground" />
-        <item itemvalue="ScalaTest.UserSpec" />
       </list>
     </recent_temporary>
   </component>
@@ -226,7 +225,8 @@
       <workItem from="1684448998344" duration="514000" />
       <workItem from="1684497166492" duration="956000" />
       <workItem from="1684780941411" duration="3080000" />
-      <workItem from="1685128874879" duration="11194000" />
+      <workItem from="1685128874879" duration="12078000" />
+      <workItem from="1685212957203" duration="4057000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -396,7 +396,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685201853061</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Auth stack integrated.">
+      <created>1685206538255</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1685206538255</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -438,6 +445,7 @@
     <MESSAGE value="Auth routes implemented." />
     <MESSAGE value="Auth http validation implemented." />
     <MESSAGE value="Role based access control implemented." />
-    <option name="LAST_COMMIT_MESSAGE" value="Role based access control implemented." />
+    <MESSAGE value="Auth stack integrated." />
+    <option name="LAST_COMMIT_MESSAGE" value="Auth stack integrated." />
   </component>
 </project>

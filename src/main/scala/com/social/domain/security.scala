@@ -3,7 +3,7 @@ package com.social.domain
 import cats.*
 import cats.implicits.*
 import cats.syntax.*
-import tsec.authentication.{AugmentedJWT, JWTAuthenticator, SecuredRequest, TSecAuthService}
+import tsec.authentication.{AugmentedJWT, JWTAuthenticator, SecuredRequest, SecuredRequestHandler, TSecAuthService}
 import tsec.mac.jca.HMACSHA256
 import com.social.domain.user.*
 import org.http4s.{Response, Status}
@@ -13,10 +13,14 @@ object security {
   type Crypto = HMACSHA256
   type JwtToken = AugmentedJWT[Crypto, String]
   type Authenticator[F[_]] = JWTAuthenticator[F, String, User, Crypto]
+  
+  //type aliases for http routes
   type AuthRoute[F[_]] = PartialFunction[SecuredRequest[F, User, JwtToken], F[Response[F]]]
-  type AuthRBAC[F[_]] = BasicRBAC[F, Role, User, JwtToken]
+  type SecuredHandler[F[_]] = SecuredRequestHandler[F, String, User, JwtToken]
 
   //RBAC - role based access control
+  type AuthRBAC[F[_]] = BasicRBAC[F, Role, User, JwtToken]
+  
   // BasicRBAC[F, Role, User, JwtToken
   given authRole[F[_]: Applicative]: AuthorizationInfo[F, Role, User] with {
     override def fetchInfo(user: User): F[Role] = user.role.pure[F]

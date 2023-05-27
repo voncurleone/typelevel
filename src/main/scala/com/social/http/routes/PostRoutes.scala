@@ -8,6 +8,9 @@ import cats.implicits.*
 import com.social.core.Posts
 import com.social.domain.pagination.Pagination
 import com.social.domain.post.{Post, PostFilter, PostInfo}
+import com.social.domain.security.{AuthRoute, Authenticator, JwtToken, SecuredHandler, allRoles, registeredOnly, restrictedTo}
+import com.social.domain.user.User
+import com.social.http.responses.Responses.FailureResponse
 import org.http4s.*
 import org.http4s.dsl.*
 import org.http4s.dsl.impl.*
@@ -18,9 +21,12 @@ import scala.collection.mutable
 import org.typelevel.log4cats.Logger
 import com.social.logging.Syntax.*
 import com.social.http.validation.Syntax.*
+import tsec.authentication.{SecuredRequestHandler, asAuthed}
 
 //uuid => 11111111-1111-1111-1111-111111111111
-class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F]) extends HttpValidationDsl[F] {
+class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F], authenticator: Authenticator[F]) extends HttpValidationDsl[F] {
+  private val securedHandler: SecuredHandler[F] = SecuredRequestHandler(authenticator)
+
 
   object OffsetQueryParam extends OptionalQueryParamDecoderMatcher[Int]("offset")
   object LimitQueryParam extends OptionalQueryParamDecoderMatcher[Int]("limit")
@@ -45,9 +51,9 @@ class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F]) extends Ht
 
 
   //POST /posts { jobInfo }
-  private val createPostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case request @ POST -> Root / "create" =>
-      request.validate[PostInfo] { postInfo =>
+  private val createPostRoute: AuthRoute[F] = {
+    case request @ POST -> Root / "create" asAuthed _ =>
+      request.request.validate[PostInfo] { postInfo =>
         for {
           _ <- Logger[F].info("Creating post: simple log example")
 
@@ -61,35 +67,40 @@ class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F]) extends Ht
   }
 
   //PUT /posts/uuid { jobInfo }
-  private val updatePostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case request @ PUT -> Root / UUIDVar(id) =>
-      request.validate[PostInfo] { postInfo =>
-        for {
-          newPost <- posts.update(id, postInfo) //.logError(e => s"Error updating post: $e")
-          response <- newPost match
-            case Some(post) => Ok()
-            case None => NotFound(s"Can't update post $id: post not found.")
-        } yield response
+  private val updatePostRoute: AuthRoute[F] = {
+    case request @ PUT -> Root / UUIDVar(id) asAuthed user =>
+      request.request.validate[PostInfo] { postInfo =>
+        posts.find(id).flatMap {
+          case None => NotFound(FailureResponse("cant delete a post that is not yours"))
+          case Some(post) =>
+            posts.update(id, postInfo) *> Ok()
+        }
       }
   }
 
   //DELETE /posts/uuid
-  private val deletePostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case DELETE -> Root / UUIDVar(id) => posts.find(id).flatMap {
-      case Some(_) => for {
-        _ <- posts.delete(id)
-        response <- Ok()
-      } yield response
+  private val deletePostRoute: AuthRoute[F] = {
+    case DELETE -> Root / UUIDVar(id) asAuthed user => posts.find(id).flatMap {
+      case Some(post) if user.owns(post) || user.isAdmin =>
+        posts.delete(id) *> Ok()
 
       case None => NotFound(s"Can't delete post $id: post not found.")
+      case _ => Forbidden(FailureResponse("you can only delete your own posts"))
     }
   }
 
+  val authedRoutes = securedHandler.liftService(
+    createPostRoute.restrictedTo(allRoles) |+|
+      deletePostRoute.restrictedTo(registeredOnly) |+|
+      updatePostRoute.restrictedTo(registeredOnly)
+  )
+  val unauthedRotes = allPostsRoute <+> findPostRoute
   val routes: HttpRoutes[F] = Router(
-    "/posts" -> (allPostsRoute <+> findPostRoute <+> createPostRoute <+> updatePostRoute <+> deletePostRoute)
+    "/posts" -> (unauthedRotes <+> authedRoutes)
   )
 }
 
 object PostRoutes {
-  def apply[F[_]: Concurrent: Logger](posts: Posts[F]) = new PostRoutes[F](posts)
+  def apply[F[_]: Concurrent: Logger](posts: Posts[F], authenticator: Authenticator[F]) =
+    new PostRoutes[F](posts, authenticator)
 }

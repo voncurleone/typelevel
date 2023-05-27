@@ -6,7 +6,7 @@ import cats.effect.testing.scalatest.AsyncIOSpec
 import com.social.core.Posts
 import com.social.domain.pagination.Pagination
 import com.social.domain.post.{Post, PostFilter, PostInfo}
-import com.social.fixtures.PostFixture
+import com.social.fixtures.{PostFixture, SecuredRouteFixture}
 import org.http4s.{HttpRoutes, Method, Request, Status}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.implicits.uri
@@ -25,7 +25,8 @@ class PostRoutesSpec
   with AsyncIOSpec
   with Matchers
   with Http4sDsl[IO]
-  with PostFixture {
+  with PostFixture
+  with SecuredRouteFixture {
 
   //Prep
   //Mock the Posts module
@@ -57,7 +58,7 @@ class PostRoutesSpec
 
   //build jobsRoutes
   given logger: Logger[IO] = Slf4jLogger.getLogger[IO]
-  val postRoutes: HttpRoutes[IO] = PostRoutes[IO](posts).routes
+  val postRoutes: HttpRoutes[IO] = PostRoutes[IO](posts, mockedAuthenticator).routes
 
   //Tests
   "PostRoutes" - {
@@ -107,9 +108,11 @@ class PostRoutesSpec
 
     "should create a new post" in {
       for {
+        jwtToken <- mockedAuthenticator.create(adminEmail)
         //simulate an http request
         response <- postRoutes.orNotFound.run {
           Request(method = Method.POST, uri = uri"/posts/create")
+            .withBearerToken(jwtToken)
             .withEntity(AwesomePost.postInfo)
         }
 
@@ -120,16 +123,19 @@ class PostRoutesSpec
       }
     }
 
-    "should only update a post that exists" in {
+    "should only update a post that jwt token owns" in {
       for {
+        jwtToken <- mockedAuthenticator.create(adminEmail)
         //simulate an http request
         responseOk <- postRoutes.orNotFound.run {
           Request(method = Method.PUT, uri = uri"/posts/843df718-ec6e-4d49-9289-f799c0f40064")
+            .withBearerToken(jwtToken)
             .withEntity(UpdatedAwesomePost.postInfo)
         }
 
         response404 <- postRoutes.orNotFound.run {
           Request(method = Method.PUT, uri = uri"/posts/843df718-ec6e-4d49-9289-f799c0f40000")
+            .withBearerToken(jwtToken)
             .withEntity(UpdatedAwesomePost.postInfo)
         }
       } yield {
@@ -138,15 +144,32 @@ class PostRoutesSpec
       }
     }
 
+    "should only unauthorized a post that jwt token doesnt own" in {
+      for {
+        jwtToken <- mockedAuthenticator.create("not@me.com")
+        //simulate an http request
+        response <- postRoutes.orNotFound.run {
+          Request(method = Method.PUT, uri = uri"/posts/843df718-ec6e-4d49-9289-f799c0f40064")
+            .withBearerToken(jwtToken)
+            .withEntity(UpdatedAwesomePost.postInfo)
+        }
+      } yield {
+        response.status shouldBe Status.Unauthorized
+      }
+    }
+
     "should only delete a post that exists" in {
       for {
+        jwtToken <- mockedAuthenticator.create(adminEmail)
         //simulate an http request
         responseOk <- postRoutes.orNotFound.run {
           Request(method = Method.DELETE, uri = uri"/posts/843df718-ec6e-4d49-9289-f799c0f40064")
+            .withBearerToken(jwtToken)
         }
 
         response404 <- postRoutes.orNotFound.run {
           Request(method = Method.DELETE, uri = uri"/posts/843df718-ec6e-4d49-9289-f799c0f40000")
+            .withBearerToken(jwtToken)
         }
       } yield {
         responseOk.status shouldBe Status.Ok
