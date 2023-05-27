@@ -1,16 +1,21 @@
 package com.social.core
 
+import cats.data.OptionT
 import com.social.domain.auth.*
 import com.social.domain.security.*
 import com.social.domain.user.*
-import tsec.authentication.{AugmentedJWT, JWTAuthenticator}
+import tsec.authentication.{AugmentedJWT, BackingStore, IdentityStore, JWTAuthenticator}
 import tsec.mac.jca.HMACSHA256
 import cats.effect.*
 import cats.implicits.*
+import com.social.config.SecurityConfig
 import doobie.util.transactor.Transactor
 import org.typelevel.log4cats.Logger
+import tsec.common.SecureRandomId
 import tsec.passwordhashers.PasswordHash
 import tsec.passwordhashers.jca.BCrypt
+
+import concurrent.duration.*
 
 trait Auth[F[_]] {
   def login(email: String, password: String): F[Option[JwtToken]]
@@ -74,6 +79,46 @@ class LiveAuth[F[_]: Async: Logger] private
 }
 
 object LiveAuth {
-  def apply[F[_]: Async: Logger](users: Users[F], authenticator: Authenticator[F]): F[LiveAuth[F]] =
-    new LiveAuth[F](users, authenticator).pure[F]
+  def apply[F[_]: Async: Logger](users: Users[F])(securityConfig: SecurityConfig): F[LiveAuth[F]] = {
+
+    //identity store: String => OptionT[F, User]
+    val idStore: IdentityStore[F, String, User] = (email: String) =>
+      OptionT(users.find(email))
+
+    //backing store for jwt tokensL BackingStore[F, id, JwtToken]
+    val tokenStoreF = Ref.of[F, Map[SecureRandomId, JwtToken]](Map.empty).map { ref =>
+      new BackingStore[F, SecureRandomId, JwtToken] {
+        override def get(id: SecureRandomId): OptionT[F, JwtToken] =
+          OptionT(ref.get.map(_.get(id)))
+
+        override def put(elem: JwtToken): F[JwtToken] =
+          ref.modify(store => (store + (elem.id -> elem), elem))
+
+        override def delete(id: SecureRandomId): F[Unit] =
+          ref.modify(store => (store - id, ()))
+        override def update(v: JwtToken): F[JwtToken] =
+          put(v)
+      }
+    }
+
+
+    //key for hashing
+    //todo: move secret to config
+    val keyF = HMACSHA256.buildKey[F](securityConfig.secret.getBytes("UTF-8"))
+
+    //val authenticatorF: F[Authenticator[F]] =
+      for {
+        key <- keyF
+        tokenStore <- tokenStoreF
+        //authenticator
+        authenticator = JWTAuthenticator.backed.inBearerToken(
+          //expiry of token, max idle optional, idStore, key
+          expiryDuration = securityConfig.jwtExpiryDuration,
+          maxIdle = None,
+          identityStore = idStore,
+          tokenStore = tokenStore,
+          signingKey = key
+        )
+      } yield new LiveAuth[F](users, authenticator)
+  }
 }
