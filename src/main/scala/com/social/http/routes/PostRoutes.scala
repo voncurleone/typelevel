@@ -24,9 +24,8 @@ import com.social.http.validation.Syntax.*
 import tsec.authentication.{SecuredRequestHandler, asAuthed}
 
 //uuid => 11111111-1111-1111-1111-111111111111
-class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F], authenticator: Authenticator[F]) extends HttpValidationDsl[F] {
-  private val securedHandler: SecuredHandler[F] = SecuredRequestHandler(authenticator)
-
+class PostRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (posts: Posts[F])
+  extends HttpValidationDsl[F] {
 
   object OffsetQueryParam extends OptionalQueryParamDecoderMatcher[Int]("offset")
   object LimitQueryParam extends OptionalQueryParamDecoderMatcher[Int]("limit")
@@ -89,7 +88,7 @@ class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F], authentica
     }
   }
 
-  val authedRoutes = securedHandler.liftService(
+  val authedRoutes = SecuredHandler[F].liftService(
     createPostRoute.restrictedTo(allRoles) |+|
       deletePostRoute.restrictedTo(registeredOnly) |+|
       updatePostRoute.restrictedTo(registeredOnly)
@@ -101,6 +100,6 @@ class PostRoutes[F[_] : Concurrent: Logger] private (posts: Posts[F], authentica
 }
 
 object PostRoutes {
-  def apply[F[_]: Concurrent: Logger](posts: Posts[F], authenticator: Authenticator[F]) =
-    new PostRoutes[F](posts, authenticator)
+  def apply[F[_]: Concurrent: Logger: SecuredHandler](posts: Posts[F]) =
+    new PostRoutes[F](posts)
 }

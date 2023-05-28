@@ -2,11 +2,11 @@ package com.social.fixtures
 
 import cats.data.OptionT
 import cats.effect.IO
-import com.social.domain.security.{Authenticator, JwtToken}
+import com.social.domain.security.{Authenticator, JwtToken, SecuredHandler}
 import com.social.domain.user.User
 import org.http4s.{AuthScheme, Credentials, Request}
 import org.http4s.headers.Authorization
-import tsec.authentication.{IdentityStore, JWTAuthenticator}
+import tsec.authentication.{IdentityStore, JWTAuthenticator, SecuredRequestHandler}
 import tsec.jws.mac.JWTMac
 import tsec.mac.jca.HMACSHA256
 
@@ -40,4 +40,6 @@ trait SecuredRouteFixture extends UserFixture {
         Authorization(Credentials.Token(AuthScheme.Bearer, jwtString))
       }
   }
+
+  given securedHandler: SecuredHandler[IO] = SecuredRequestHandler(mockedAuthenticator)
 }

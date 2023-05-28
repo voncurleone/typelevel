@@ -43,9 +43,9 @@ class AuthRoutesSpec
       if userInfo.email == adminEmail then IO.pure(Some(admin))
       else IO.pure(None)
 
-    override def login(email: String, password: String): IO[Option[JwtToken]] =
+    override def login(email: String, password: String): IO[Option[User]] =
       if email == personEmail && password == personPass then
-        mockedAuthenticator.create(personEmail).map(Some(_))
+        Some(person).pure[IO]
       else IO.pure(None)
 
     override def changePassword(email: String, passwordInfo: auth.NewPasswordInfo): IO[Either[String, Option[user.User]]] =
@@ -54,12 +54,10 @@ class AuthRoutesSpec
         else IO.pure(Left("Invalid password"))
       else IO.pure(Right(None))
 
-    override def authenticator: Authenticator[IO] = mockedAuthenticator
-
     override def delete(email: String): IO[Boolean] = IO.pure(true)
   }
 
-  val authRoutes = AuthRoutes[IO](mockedAuth).routes
+  val authRoutes = AuthRoutes[IO](mockedAuth, mockedAuthenticator).routes
 
   "Auth routes" - {
     "should return a 401 unauthorized if login fails" in {

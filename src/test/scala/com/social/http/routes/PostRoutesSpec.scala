@@ -58,7 +58,7 @@ class PostRoutesSpec
 
   //build jobsRoutes
   given logger: Logger[IO] = Slf4jLogger.getLogger[IO]
-  val postRoutes: HttpRoutes[IO] = PostRoutes[IO](posts, mockedAuthenticator).routes
+  val postRoutes: HttpRoutes[IO] = PostRoutes[IO](posts).routes
 
   //Tests
   "PostRoutes" - {

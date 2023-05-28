@@ -16,17 +16,18 @@ import org.http4s.circe.CirceEntityCodec.*
 import tsec.authentication.{SecuredRequestHandler, TSecAuthService, asAuthed}
 import scala.language.implicitConversions
 
-class AuthRoutes[F[_] : Concurrent: Logger] private (auth: Auth[F]) extends HttpValidationDsl[F] {
-  private val authenticator = auth.authenticator
-  private val securedHandler: SecuredRequestHandler[F, String, User, JwtToken] = SecuredRequestHandler(authenticator)
+class AuthRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (auth: Auth[F], authenticator: Authenticator[F])
+  extends HttpValidationDsl[F] {
 
   // POST /auth/login { LoginInfo } => Ok with jwt as authorization: Bearer
   private val loginRoute: HttpRoutes[F] = HttpRoutes.of[F] {
     case request @ POST -> Root / "login" =>
       request.validate[LoginInfo] { loginInfo =>
         val tokenOption = for {
-          tokenOption <- auth.login(loginInfo.email, loginInfo.password)
+          userOption <- auth.login(loginInfo.email, loginInfo.password)
           _ <- Logger[F].info(s"User logging in: ${loginInfo.email}")
+          //create a new token
+          tokenOption <- userOption.traverse(user => authenticator.create(user.email))
         } yield tokenOption
 
         tokenOption.map {
@@ -84,7 +85,7 @@ class AuthRoutes[F[_] : Concurrent: Logger] private (auth: Auth[F]) extends Http
   }
 
   val unauthedRoutes = loginRoute <+> createUserRoute
-  val authedRoutes = securedHandler.liftService(
+  val authedRoutes = SecuredHandler[F].liftService(
     changePasswordRoute.restrictedTo(allRoles) |+|
     logoutRoute.restrictedTo(allRoles) |+|
     deleteUserRoute.restrictedTo(adminOnly)
@@ -97,5 +98,6 @@ class AuthRoutes[F[_] : Concurrent: Logger] private (auth: Auth[F]) extends Http
 }
 
 object AuthRoutes {
-  def apply[F[_]: Concurrent: Logger](auth: Auth[F]) = new AuthRoutes[F](auth)
+  def apply[F[_]: Concurrent: Logger: SecuredHandler](auth: Auth[F], authenticator: Authenticator[F]) =
+    new AuthRoutes[F](auth, authenticator)
 }
