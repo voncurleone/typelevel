@@ -1,8 +1,22 @@
 package com.social.fixtures
 
+import cats.effect.IO
+import com.social.core.Users
 import com.social.domain.user.*
 
 trait UserFixture {
+  val mockedUsers: Users[IO] = new Users[IO] {
+    override def create(user: User): IO[Option[String]] = IO.pure(Some(user.email))
+
+    override def find(email: String): IO[Option[User]] =
+      if (email == personEmail) IO(Some(person))
+      else IO(None)
+
+    override def update(user: User): IO[Option[User]] = IO.pure(Some(user))
+
+    override def delete(email: String): IO[Boolean] = IO.pure(true)
+  }
+  
   val person = User(
     "person@domain.com",
     "person",

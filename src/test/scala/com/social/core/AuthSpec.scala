@@ -26,17 +26,6 @@ class AuthSpec
   with UserFixture {
   given logger: Logger[IO] = Slf4jLogger.getLogger[IO]
 
-  private val mockedUsers: Users[IO] = new Users[IO] {
-    override def create(user: User): IO[Option[String]] = IO.pure(Some(user.email))
-
-    override def find(email: String): IO[Option[User]] =
-      if(email == personEmail) IO(Some(person))
-      else IO(None)
-
-    override def update(user: User): IO[Option[User]] = IO.pure(Some(user))
-    override def delete(email: String): IO[Boolean] = IO.pure(true)
-  }
-
   val mockedConfig = SecurityConfig("secret", 1.day)
 
 //  val mockedAuthenticator: Authenticator[IO] = {
