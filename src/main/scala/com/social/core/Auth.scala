@@ -9,6 +9,7 @@ import tsec.mac.jca.HMACSHA256
 import cats.effect.*
 import cats.implicits.*
 import com.social.config.SecurityConfig
+import com.social.modules.Emails
 import doobie.util.transactor.Transactor
 import org.typelevel.log4cats.Logger
 import tsec.common.SecureRandomId
@@ -22,11 +23,12 @@ trait Auth[F[_]] {
   def signUp(userInfo: NewUserInfo): F[Option[User]]
   def changePassword(email: String, passwordInfo: NewPasswordInfo): F[Either[String, Option[User]]]
   def delete(email: String): F[Boolean]
-  //todo: password recovery via email
+  def sendPasswordRecoveryToken(email: String): F[Unit]
+  def recoverPasswordFromToken(email: String, token: String, newPassword: String): F[Boolean]
 }
 
 class LiveAuth[F[_]: Async: Logger] private
-(users: Users[F]) extends Auth[F] {
+(users: Users[F], tokens: Tokens[F], emails: Emails[F]) extends Auth[F] {
   override def login(email: String, password: String): F[Option[User]] =
     for {
       userOption <- users.find(email)
@@ -73,10 +75,26 @@ class LiveAuth[F[_]: Async: Logger] private
 
   override def delete(email: String): F[Boolean] =
     users.delete(email)
+
+  override def sendPasswordRecoveryToken(email: String): F[Unit] =
+    tokens.getToken(email).flatMap {
+      case Some(token) => emails.sendPasswordRecoveryEmail(email, token)
+      case None => ().pure[F]
+    }
+
+  override def recoverPasswordFromToken(email: String, token: String, newPassword: String): F[Boolean] =
+    for {
+      userOption <- users.find(email)
+      validToken <- tokens.checkToken(email, token)
+      result <- (userOption, validToken) match {
+        case (Some(user), true) => updateUser(user, newPassword).map(_.nonEmpty)
+        case _ => false.pure[F]
+      }
+    } yield result
 }
 
 object LiveAuth {
-  def apply[F[_]: Async: Logger](users: Users[F]): F[LiveAuth[F]] = {
-    new LiveAuth[F](users).pure[F]
+  def apply[F[_]: Async: Logger](users: Users[F], tokens: Tokens[F], emails: Emails[F]): F[LiveAuth[F]] = {
+    new LiveAuth[F](users, tokens, emails).pure[F]
   }
 }
