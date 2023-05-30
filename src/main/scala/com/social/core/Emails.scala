@@ -1,13 +1,14 @@
-package com.social.modules
+package com.social.core
 
+import cats.*
 import cats.effect.*
 import cats.implicits.*
-import cats.*
 import com.social.config.EmailServiceConfig
 
+
 import java.util.Properties
+import javax.mail.*
 import javax.mail.internet.MimeMessage
-import javax.mail.{Authenticator, Message, PasswordAuthentication, Session, Transport}
 
 trait Emails[F[_]] {
   def sendEmail(to: String, subject: String, content: String): F[Unit]

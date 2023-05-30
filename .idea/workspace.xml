@@ -4,13 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Implemented password recovery.">
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Implemented password recovery email.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/Application.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/config/AppConfig.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/config/AppConfig.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Auth.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/domain/auth.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/domain/auth.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/AuthRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/http/routes/AuthRoutes.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/modules/Core.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/modules/Emails.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/core/Emails.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/social/playground/EmailsPlayground.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/social/playground/EmailsPlayground.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/core/AuthSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/core/AuthSpec.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" afterDir="false" />
     </list>
@@ -79,11 +81,25 @@
       <recent name="$PROJECT_DIR$/src/main/scala/com/social/http/routes" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.social.core" />
       <recent name="com.social.http" />
       <recent name="com.social" />
     </key>
   </component>
-  <component name="RunManager" selected="ScalaTest.AuthSpec">
+  <component name="RunManager" selected="Application.Application">
+    <configuration name="Application" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.social.Application" />
+      <module name="typelevel-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.social.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="EmailsEffectPlayground" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.social.playground.EmailsEffectPlayground" />
       <module name="typelevel-project" />
@@ -110,6 +126,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AuthRoutesSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="typelevel-project" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Class" />
+      <option name="testClassPath" value="com.social.http.routes.AuthRoutesSpec" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AuthSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="typelevel-project" />
       <option name="allowRunningInParallel" value="false" />
@@ -123,39 +152,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PostRoutesSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
-      <module name="typelevel-project" />
-      <option name="allowRunningInParallel" value="false" />
-      <option name="projectPathOnTarget" />
-      <option name="selectedOptions">
-        <list />
-      </option>
-      <option name="testKind" value="Class" />
-      <option name="testClassPath" value="com.social.http.routes.PostRoutesSpec" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TokensSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
-      <module name="typelevel-project" />
-      <option name="allowRunningInParallel" value="false" />
-      <option name="projectPathOnTarget" />
-      <option name="selectedOptions">
-        <list />
-      </option>
-      <option name="testKind" value="Class" />
-      <option name="testClassPath" value="com.social.core.TokensSpec" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Application" />
+        <item itemvalue="ScalaTest.AuthRoutesSpec" />
         <item itemvalue="ScalaTest.AuthSpec" />
         <item itemvalue="Application.EmailsEffectPlayground" />
         <item itemvalue="Application.EmailsPlayground" />
-        <item itemvalue="ScalaTest.TokensSpec" />
-        <item itemvalue="ScalaTest.PostRoutesSpec" />
       </list>
     </recent_temporary>
   </component>
@@ -227,7 +230,9 @@
       <workItem from="1684780941411" duration="3080000" />
       <workItem from="1685128874879" duration="12078000" />
       <workItem from="1685212957203" duration="9279000" />
-      <workItem from="1685298568135" duration="14042000" />
+      <workItem from="1685298568135" duration="14837000" />
+      <workItem from="1685403574322" duration="239000" />
+      <workItem from="1685480515298" duration="5378000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -432,7 +437,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685386515554</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Implemented password recovery email.">
+      <created>1685397579495</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1685397579495</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -450,7 +462,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented post routes." />
     <MESSAGE value="Added some logging." />
     <MESSAGE value="Added core algebra." />
     <MESSAGE value="Created a playground object to run algebra." />
@@ -475,6 +486,7 @@
     <MESSAGE value="Refactor." />
     <MESSAGE value="Implemented recoveryTokens algebra." />
     <MESSAGE value="Implemented password recovery." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented password recovery." />
+    <MESSAGE value="Implemented password recovery email." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented password recovery email." />
   </component>
 </project>

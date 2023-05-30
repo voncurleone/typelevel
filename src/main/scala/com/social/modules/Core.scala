@@ -3,7 +3,7 @@ package com.social.modules
 import cats.effect.*
 import cats.implicits.*
 import com.social.config.{EmailServiceConfig, SecurityConfig, TokenConfig}
-import com.social.core.{Auth, LiveAuth, LivePosts, LiveTokens, LiveUsers, Posts, Users}
+import com.social.core.{Auth, LiveAuth, LiveEmails, LivePosts, LiveTokens, LiveUsers, Posts, Users}
 import doobie.util.transactor.Transactor
 import org.typelevel.log4cats.Logger
 

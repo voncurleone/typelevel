@@ -4,7 +4,7 @@ import cats.effect.*
 import cats.implicits.*
 import com.social.http.validation.Syntax.HttpValidationDsl
 import com.social.core.Auth
-import com.social.domain.auth.{LoginInfo, NewPasswordInfo}
+import com.social.domain.auth.{ForgotPasswordInfo, LoginInfo, NewPasswordInfo, RecoverPasswordInfo}
 import com.social.domain.security.*
 import org.http4s.{HttpRoutes, Response, Status}
 import org.http4s.server.Router
@@ -14,6 +14,7 @@ import com.social.domain.user.{NewUserInfo, User}
 import com.social.http.responses.Responses.FailureResponse
 import org.http4s.circe.CirceEntityCodec.*
 import tsec.authentication.{SecuredRequestHandler, TSecAuthService, asAuthed}
+
 import scala.language.implicitConversions
 
 class AuthRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (auth: Auth[F], authenticator: Authenticator[F])
@@ -25,7 +26,7 @@ class AuthRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (auth: Auth[
       request.validate[LoginInfo] { loginInfo =>
         val tokenOption = for {
           userOption <- auth.login(loginInfo.email, loginInfo.password)
-          _ <- Logger[F].info(s"User logging in: ${loginInfo.email}")
+          //_ <- Logger[F].info(s"User logging in: ${loginInfo.email}")
           //create a new token
           tokenOption <- userOption.traverse(user => authenticator.create(user.email))
         } yield tokenOption
@@ -86,15 +87,26 @@ class AuthRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (auth: Auth[
 
   //POST /auth/reset { ForgotPasswordInfo }
   private val forgotPasswordRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case request @ POST -> Root / "reset" => Ok("todo")
+    case request @ POST -> Root / "reset" =>
+      for {
+        fpInfo <- request.as[ForgotPasswordInfo]
+        _ <- auth.sendPasswordRecoveryToken(fpInfo.email)
+        response <- Ok()
+      } yield response
   }
 
   //POST auth/recover { RecoverPasswordInfo }
   private val recoverPasswordRoute: HttpRoutes[F] = HttpRoutes.of[F] {
-    case request @ POST -> Root /"recover" => Ok("todo")
+    case request @ POST -> Root /"recover" =>
+      for {
+        rpInfo <- request.as[RecoverPasswordInfo]
+        recoverySuccessful <- auth.recoverPasswordFromToken(rpInfo.email, rpInfo.token, rpInfo.newPassword)
+        response <- if (recoverySuccessful) Ok() else Forbidden(FailureResponse("Incorrect email/token combo"))
+        _ <- Logger[F].info(s"result: $recoverySuccessful")
+      } yield response
   }
   
-  val unauthedRoutes = loginRoute <+> createUserRoute
+  val unauthedRoutes = loginRoute <+> createUserRoute <+> forgotPasswordRoute <+> recoverPasswordRoute
   val authedRoutes = SecuredHandler[F].liftService(
     changePasswordRoute.restrictedTo(allRoles) |+|
     logoutRoute.restrictedTo(allRoles) |+|

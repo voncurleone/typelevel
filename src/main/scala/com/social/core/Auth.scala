@@ -9,7 +9,6 @@ import tsec.mac.jca.HMACSHA256
 import cats.effect.*
 import cats.implicits.*
 import com.social.config.SecurityConfig
-import com.social.modules.Emails
 import doobie.util.transactor.Transactor
 import org.typelevel.log4cats.Logger
 import tsec.common.SecureRandomId

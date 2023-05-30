@@ -5,7 +5,7 @@ import cats.effect.*
 import cats.implicits.*
 import cats.effect.testing.scalatest.AsyncIOSpec
 import com.social.core.Auth
-import com.social.domain.auth.{LoginInfo, NewPasswordInfo}
+import com.social.domain.auth.{ForgotPasswordInfo, LoginInfo, NewPasswordInfo, RecoverPasswordInfo}
 import com.social.domain.security.{Authenticator, JwtToken}
 import com.social.domain.user.{NewUserInfo, User}
 import com.social.domain.{auth, user}
@@ -20,7 +20,7 @@ import org.typelevel.log4cats.slf4j.Slf4jLogger
 import io.circe.generic.auto.*
 import org.http4s.circe.CirceEntityCodec.*
 import org.http4s.headers.Authorization
-import org.scalatest.matchers.should.Matchers.shouldBe
+import org.scalatest.matchers.should.Matchers.{should, shouldBe}
 import org.typelevel.ci.CIStringSyntax
 import tsec.authentication.{IdentityStore, JWTAuthenticator}
 import tsec.jws.mac.JWTMac
@@ -38,7 +38,9 @@ class AuthRoutesSpec
 
   given logger: Logger[IO] = Slf4jLogger.getLogger[IO]
 
-  val mockedAuth = new Auth[IO] {
+  val mockedAuth = probedAuth(None)
+
+  def probedAuth(userMap: Option[Ref[IO, Map[String, String]]]): Auth[IO] = new Auth[IO] {
     override def signUp(userInfo: user.NewUserInfo): IO[Option[user.User]] =
       if userInfo.email == adminEmail then IO.pure(Some(admin))
       else IO.pure(None)
@@ -56,9 +58,17 @@ class AuthRoutesSpec
 
     override def delete(email: String): IO[Boolean] = IO.pure(true)
 
-    override def sendPasswordRecoveryToken(email: String): IO[Unit] = ???
+    override def sendPasswordRecoveryToken(email: String): IO[Unit] =
+      userMap.traverse { userMapRef =>
+        userMapRef.modify(users => (users + (email -> "abc123"), ()))
+      }.map(_ => ())
 
-    override def recoverPasswordFromToken(email: String, token: String, newPassword: String): IO[Boolean] = ???
+    override def recoverPasswordFromToken(email: String, token: String, newPassword: String): IO[Boolean] =
+      userMap.traverse { userMapRef =>
+        userMapRef.get.map{ userMap =>
+          userMap.get(email).filter(_ == token)
+        }.map(_.nonEmpty)
+      }.map(_.getOrElse(false))
   }
 
   val authRoutes = AuthRoutes[IO](mockedAuth, mockedAuthenticator).routes
@@ -202,6 +212,52 @@ class AuthRoutesSpec
         )
       } yield {
         response.status shouldBe Status.Ok
+      }
+    }
+
+    "should return 200 ok when resetting a password and an email should be triggered" in {
+      for {
+        userMap <- Ref.of[IO, Map[String, String]](Map())
+        auth <- IO(probedAuth(Some(userMap)))
+        routes <- IO(AuthRoutes(auth, mockedAuthenticator).routes)
+        response <- routes.orNotFound.run(
+          Request(method = Method.POST, uri = uri"auth/reset")
+            .withEntity(ForgotPasswordInfo(personEmail))
+        )
+        userMap <- userMap.get
+      } yield {
+        response.status shouldBe Status.Ok
+        userMap should contain key(personEmail)
+      }
+    }
+
+    "should return 200 ok when recovering a password for a correct user/token combo" in {
+      for {
+        userMap <- Ref.of[IO, Map[String, String]](Map(personEmail -> "abc123"))
+        auth <- IO(probedAuth(Some(userMap)))
+        routes <- IO(AuthRoutes(auth, mockedAuthenticator).routes)
+        response <- routes.orNotFound.run(
+          Request(method = Method.POST, uri = uri"auth/recover")
+            .withEntity(RecoverPasswordInfo(personEmail, "abc123", "new pass"))
+        )
+        userMap <- userMap.get
+      } yield {
+        response.status shouldBe Status.Ok
+      }
+    }
+
+    "should return Forbidden when recovering a password for an incorrect user/token combo" in {
+      for {
+        userMap <- Ref.of[IO, Map[String, String]](Map(personEmail -> "abc123"))
+        auth <- IO(probedAuth(Some(userMap)))
+        routes <- IO(AuthRoutes(auth, mockedAuthenticator).routes)
+        response <- routes.orNotFound.run(
+          Request(method = Method.POST, uri = uri"auth/recover")
+            .withEntity(RecoverPasswordInfo(personEmail, "bad Token", "new pass"))
+        )
+        userMap <- userMap.get
+      } yield {
+        response.status shouldBe Status.Forbidden
       }
     }
   }

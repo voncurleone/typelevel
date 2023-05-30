@@ -2,7 +2,7 @@ package com.social.playground
 
 import cats.effect.{IO, IOApp}
 import com.social.config.EmailServiceConfig
-import com.social.modules.LiveEmails
+import com.social.core.LiveEmails
 
 import java.util.Properties
 import javax.mail.internet.MimeMessage

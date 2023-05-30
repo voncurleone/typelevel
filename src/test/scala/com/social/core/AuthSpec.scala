@@ -8,7 +8,6 @@ import com.social.domain.auth.NewPasswordInfo
 import com.social.domain.security.*
 import com.social.domain.user.*
 import com.social.fixtures.UserFixture
-import com.social.modules.Emails
 import org.scalatest.freespec.AsyncFreeSpec
 import org.scalatest.matchers.should.Matchers
 import org.typelevel.log4cats.Logger
@@ -172,7 +171,7 @@ class AuthSpec
         set <- Ref.of[IO, Set[String]](Set())
         emails <- IO(probeEmails(set))
         auth <- LiveAuth[IO](mockedUsers, mockedTokens, emails)
-        result <- auth.sendPasswordRecoveryToken("someone@domain.com")
+        _ <- auth.sendPasswordRecoveryToken("someone@domain.com")
         usersSentEmails <- set.get
       } yield (usersSentEmails)
 
@@ -184,7 +183,7 @@ class AuthSpec
         set <- Ref.of[IO, Set[String]](Set())
         emails <- IO(probeEmails(set))
         auth <- LiveAuth[IO](mockedUsers, mockedTokens, emails)
-        result <- auth.sendPasswordRecoveryToken(personEmail)
+        _ <- auth.sendPasswordRecoveryToken(personEmail)
         usersSentEmails <- set.get
       } yield (usersSentEmails)
 
