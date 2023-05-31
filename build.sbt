@@ -1,6 +1,5 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
-
-ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / name := "typelevel-project"
 
 lazy val voncurleone    = "com.voncurleone"
 lazy val scala3Version = "3.2.1"
@@ -19,9 +18,57 @@ lazy val logbackVersion             = "1.4.0"
 lazy val slf4jVersion               = "2.0.0"
 lazy val javaMailVersion            = "1.6.2"
 
-lazy val server = (project in file("."))
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Common - contains domain model
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+lazy val core = (crossProject(JSPlatform, JVMPlatform) in file("common"))
   .settings(
-    name         := "typelevel-project",
+    name         := "common",
+    scalaVersion := scala3Version,
+    organization := voncurleone
+  )
+  .jvmSettings(
+    // add here if necessary
+  )
+  .jsSettings(
+    // Add JS-specific settings here
+  )
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Frontend
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+lazy val tyrianVersion = "0.6.1"
+lazy val fs2DomVersion = "0.1.0"
+lazy val laikaVersion  = "0.19.0"
+
+lazy val app = (project in file("app"))
+  .enablePlugins(ScalaJSPlugin)
+  .settings(
+    name         := "app",
+    scalaVersion := scala3Version,
+    organization := voncurleone,
+    libraryDependencies ++= Seq(
+      "io.indigoengine" %%% "tyrian-io"     % tyrianVersion,
+      "com.armanbilge"  %%% "fs2-dom"       % fs2DomVersion,
+      "org.planet42"    %%% "laika-core"    % laikaVersion,
+      "io.circe"        %%% "circe-core"    % circeVersion,
+      "io.circe"        %%% "circe-parser"  % circeVersion,
+      "io.circe"        %%% "circe-generic" % circeVersion
+    ),
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+    semanticdbEnabled := true,
+    autoAPIMappings   := true
+  ).dependsOn(core.js)
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// server
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+lazy val server = (project in file("server"))
+  .settings(
+    name         := "",
     scalaVersion := scala3Version,
     organization := voncurleone,
     libraryDependencies ++= Seq(
@@ -48,4 +95,4 @@ lazy val server = (project in file("."))
       "ch.qos.logback"     % "logback-classic"               % logbackVersion             % Test
     ),
     Compile / mainClass := Some("com.social.Application")
-  )
+  ).dependsOn(core.jvm)
