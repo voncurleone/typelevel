@@ -1,10 +1,11 @@
 package com.social
 
 import cats.effect.*
-import com.social.App.*
+import com.social.App.Msg
+import com.social.core.Router
 
 import scala.scalajs.js.annotation.*
-import org.scalajs.dom.document
+import org.scalajs.dom.{document, window}
 import tyrian.*
 import tyrian.Html.*
 import tyrian.cmds.Logger
@@ -12,32 +13,41 @@ import tyrian.cmds.Logger
 import concurrent.duration.*
 
 @JSExportTopLevel("App")
-class App extends TyrianApp[Msg, Model] {
+class App extends TyrianApp[App.Msg, App.Model] {
+  import com.social.App.*
+
   override def init(flags: Map[String, String]): (Model, Cmd[IO, Msg]) =
-    (Model(0), Cmd.None)
+    val (router, cmd) = Router.startAt(window.location.pathname)
+    (Model(router), cmd)
 
   override def subscriptions(model: Model): Sub[IO, Msg] =
-    Sub.every[IO](1.second).map(_ => Increment(1))
+    Sub.make("urlChange", model.router.history.state.discrete //listener for browser history changes
+      .map(_.get)
+      .map( newLocation => Router.ChangeLocation(newLocation, true))
+    )
 
   override def update(model: Model): Msg => (Model, Cmd[IO, Msg]) =
-    case Increment(amount) =>
-      (model.copy(count = model.count + amount), Logger.consoleLog[IO](s"Incrementing by $amount"))
-
-    case Decrement(amount) =>
-      (model.copy(count = model.count - amount), Logger.consoleLog[IO](s"Decrementing by $amount"))
+    case msg: Msg =>
+      val (newRouter, cmd) = model.router.update(msg)
+      (model.copy(router = newRouter), cmd)
 
   override def view(model: Model): Html[Msg] =
     div(
-      button(onClick(Increment(3)))("increment 3"),
-      button(onClick(Decrement(3)))("decrement 3"),
-      div(s"Tyrian running: ${model.count}")
+      renderNavLink("Posts", "/posts"),
+      renderNavLink("Login", "/login"),
+      renderNavLink("Sign Up", "/signup"),
+      div(s"You are now at: ${model.router.location}")
     )
+
+  private def renderNavLink(text: String, location: String) =
+    a(href := location, `class` := "nav-link", onEvent("click", e => {
+      e.preventDefault() //prevent page from reloading
+      Router.ChangeLocation(location)
+    }))(text)
 }
 
 object App {
-  sealed trait Msg
-  case class Increment(amount: Int) extends Msg
-  case class Decrement(amount: Int) extends Msg
+  type Msg = Router.Msg
 
-  case class Model(count: Int)
+  case class Model(router: Router)
 }

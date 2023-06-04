@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Added ScalaJs.">
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Added Tyrian.">
+      <change afterPath="$PROJECT_DIR$/app/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Router.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/playground/PlaygroundApp.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/App.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/App.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +56,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-11&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/tim/IdeaProjects/typelevel/src/main/scala/com/social/http/routes&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tim/IdeaProjects/typelevel/app/src/main/scala/com/social/playground&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -72,6 +76,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/scala/com/social/playground" />
       <recent name="$PROJECT_DIR$/src/main/scala/com/social/http/routes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -252,7 +257,9 @@
       <workItem from="1685561641992" duration="729000" />
       <workItem from="1685562380719" duration="499000" />
       <workItem from="1685570212151" duration="4373000" />
-      <workItem from="1685650136906" duration="2780000" />
+      <workItem from="1685650136906" duration="3425000" />
+      <workItem from="1685849545939" duration="363000" />
+      <workItem from="1685890634910" duration="6331000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -478,7 +485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685574742058</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Added Tyrian.">
+      <created>1685653536981</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1685653536981</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -496,7 +510,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Created a playground object to run algebra." />
     <MESSAGE value="Full CRUD app." />
     <MESSAGE value="Refactored added to config." />
     <MESSAGE value="Testing posts http api." />
@@ -521,6 +534,7 @@
     <MESSAGE value="Implemented password recovery email." />
     <MESSAGE value="Backend complete.. for now." />
     <MESSAGE value="Added ScalaJs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ScalaJs." />
+    <MESSAGE value="Added Tyrian." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Tyrian." />
   </component>
 </project>

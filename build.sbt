@@ -1,5 +1,5 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
-ThisBuild / name := "typelevel-project"
+//ThisBuild / name := "typelevel-project"
 
 lazy val voncurleone    = "com.voncurleone"
 lazy val scala3Version = "3.2.1"
