@@ -2,6 +2,7 @@ package com.social
 
 import cats.effect.*
 import com.social.App.Msg
+import com.social.components.Header
 import com.social.core.Router
 
 import scala.scalajs.js.annotation.*
@@ -33,17 +34,9 @@ class App extends TyrianApp[App.Msg, App.Model] {
 
   override def view(model: Model): Html[Msg] =
     div(
-      renderNavLink("Posts", "/posts"),
-      renderNavLink("Login", "/login"),
-      renderNavLink("Sign Up", "/signup"),
+      Header.view(),
       div(s"You are now at: ${model.router.location}")
     )
-
-  private def renderNavLink(text: String, location: String) =
-    a(href := location, `class` := "nav-link", onEvent("click", e => {
-      e.preventDefault() //prevent page from reloading
-      Router.ChangeLocation(location)
-    }))(text)
 }
 
 object App {
