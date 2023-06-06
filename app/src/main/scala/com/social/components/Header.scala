@@ -1,6 +1,7 @@
 package com.social.components
 
 import com.social.core.Router
+import com.social.pages.Page.Urls.*
 import tyrian.Html.*
 
 import scala.scalajs.js
@@ -13,9 +14,9 @@ object Header {
       renderLogo(),
       div(`class` := "header-nav")(
         ul(`class` := "header-links") (
-          renderNavLink("Posts", "/posts"),
-          renderNavLink("Login", "/login"),
-          renderNavLink("Sign Up", "/signup")
+          renderNavLink("Posts", POSTS),
+          renderNavLink("Login", LOGIN),
+          renderNavLink("Sign Up", SIGN_UP)
         )
       )
     )
