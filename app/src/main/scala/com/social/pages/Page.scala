@@ -13,6 +13,11 @@ abstract class Page {
 object Page {
   trait Msg
 
+  enum StatusKind {
+    case SUCCESS, ERROR, LOADING
+  }
+  final case class Status(message: String, kind: StatusKind)
+
   import Urls.*
   def getPage(location: String) = location match {
     case `LOGIN` => LoginPage()
