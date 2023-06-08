@@ -4,9 +4,8 @@ import cats.*
 import cats.data.*
 import cats.data.Validated.*
 import cats.implicits.*
-import com.social.domain.auth.{LoginInfo, NewPasswordInfo}
+import com.social.domain.auth.{LoginInfo, NewPasswordInfo, NewUserInfo}
 import com.social.domain.post.PostInfo
-import com.social.domain.user.NewUserInfo
 
 import java.net.URL
 import scala.util.{Failure, Success, Try}

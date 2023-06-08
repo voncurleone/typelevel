@@ -4,13 +4,13 @@ import cats.effect.*
 import cats.implicits.*
 import com.social.http.validation.Syntax.HttpValidationDsl
 import com.social.core.Auth
-import com.social.domain.auth.{ForgotPasswordInfo, LoginInfo, NewPasswordInfo, RecoverPasswordInfo}
+import com.social.domain.auth.{ForgotPasswordInfo, LoginInfo, NewPasswordInfo, RecoverPasswordInfo, NewUserInfo}
 import com.social.domain.security.*
 import org.http4s.{HttpRoutes, Response, Status}
 import org.http4s.server.Router
 import org.typelevel.log4cats.Logger
 import io.circe.generic.auto.*
-import com.social.domain.user.{NewUserInfo, User}
+import com.social.domain.user.{User}
 import com.social.http.responses.Responses.FailureResponse
 import org.http4s.circe.CirceEntityCodec.*
 import tsec.authentication.{SecuredRequestHandler, TSecAuthService, asAuthed}
@@ -46,7 +46,7 @@ class AuthRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (auth: Auth[
           userOption <- auth.signUp(userInfo)
           response <- userOption match
             case Some(user) => Status.Created(user)
-            case None => Status.BadRequest(s"User with email ${userInfo.email} already exists")
+            case None => Status.BadRequest(FailureResponse(s"User with email ${userInfo.email} already exists"))
         } yield response
       }
   }

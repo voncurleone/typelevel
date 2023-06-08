@@ -4,7 +4,7 @@ import cats.data.OptionT
 import cats.effect.{IO, Ref}
 import cats.effect.testing.scalatest.AsyncIOSpec
 import com.social.config.SecurityConfig
-import com.social.domain.auth.NewPasswordInfo
+import com.social.domain.auth.{NewPasswordInfo, NewUserInfo}
 import com.social.domain.security.*
 import com.social.domain.user.*
 import com.social.fixtures.UserFixture

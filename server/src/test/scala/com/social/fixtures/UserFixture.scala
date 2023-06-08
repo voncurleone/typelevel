@@ -2,6 +2,7 @@ package com.social.fixtures
 
 import cats.effect.IO
 import com.social.core.Users
+import com.social.domain.auth.NewUserInfo
 import com.social.domain.user.*
 
 trait UserFixture {

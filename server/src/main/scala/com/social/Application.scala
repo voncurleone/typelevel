@@ -17,6 +17,7 @@ import org.typelevel.log4cats.slf4j.Slf4jLogger
 import pureconfig.ConfigSource
 import pureconfig.error.ConfigReaderException
 import cats.effect.IO.asyncForIO
+import org.http4s.server.middleware.CORS
 
 
 object Application extends IOApp.Simple {
@@ -33,7 +34,7 @@ object Application extends IOApp.Simple {
           .default[IO]
           .withHost(emberConfig.host)
           .withPort(emberConfig.port)
-          .withHttpApp(httpApi.endPoints.orNotFound)
+          .withHttpApp(CORS(httpApi.endPoints).orNotFound) //todo: remove cors
           .build
       } yield server
 

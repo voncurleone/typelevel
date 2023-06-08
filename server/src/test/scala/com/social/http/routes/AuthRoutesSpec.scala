@@ -5,9 +5,9 @@ import cats.effect.*
 import cats.implicits.*
 import cats.effect.testing.scalatest.AsyncIOSpec
 import com.social.core.Auth
-import com.social.domain.auth.{ForgotPasswordInfo, LoginInfo, NewPasswordInfo, RecoverPasswordInfo}
+import com.social.domain.auth.{ForgotPasswordInfo, LoginInfo, NewPasswordInfo, NewUserInfo, RecoverPasswordInfo}
 import com.social.domain.security.{Authenticator, JwtToken}
-import com.social.domain.user.{NewUserInfo, User}
+import com.social.domain.user.{User}
 import com.social.domain.{auth, user}
 import com.social.fixtures.{SecuredRouteFixture, UserFixture}
 import org.http4s.{AuthScheme, Credentials, HttpRoutes, Method, Request, Status}
@@ -41,7 +41,7 @@ class AuthRoutesSpec
   val mockedAuth = probedAuth(None)
 
   def probedAuth(userMap: Option[Ref[IO, Map[String, String]]]): Auth[IO] = new Auth[IO] {
-    override def signUp(userInfo: user.NewUserInfo): IO[Option[user.User]] =
+    override def signUp(userInfo: NewUserInfo): IO[Option[user.User]] =
       if userInfo.email == adminEmail then IO.pure(Some(admin))
       else IO.pure(None)
 
