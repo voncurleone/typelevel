@@ -28,7 +28,7 @@ final case class SignUpPage(
 
   override def update(msg: Page.Msg): (Page, Cmd[IO, Page.Msg]) = msg match {
     case UpdateEmail(email) =>
-      (this.copy(email = email), Cmd.None /*Logger.consoleLog(s"Changing email to: $email")*/ )
+      (this.copy(email = email), Cmd.None /* */ )
 
     case UpdateHandle(handle) =>
       (this.copy(handle = handle), Cmd.None)
@@ -144,8 +144,7 @@ object SignUpPage {
             case Right(e) => SignUpError(e)
 
       override val onError: HttpError => Msg =
-        val onError: HttpError => Msg =
-          e => SignUpError(e.toString)
+        e => SignUpError(e.toString)
     }
   }
 

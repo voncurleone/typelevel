@@ -4,21 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Started SignUpPage.">
-      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Endpoint.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Completed SignUpPage.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Constants.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Constants.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/SignUpPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/SignUpPage.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/Application.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/scala/com/social/Application.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/domain/auth.scala" beforeDir="false" afterPath="$PROJECT_DIR$/common/shared/src/main/scala/com/social/domain/auth.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/domain/pagination.scala" beforeDir="false" afterPath="$PROJECT_DIR$/common/shared/src/main/scala/com/social/domain/pagination.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/domain/post.scala" beforeDir="false" afterPath="$PROJECT_DIR$/common/shared/src/main/scala/com/social/domain/post.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/domain/user.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/scala/com/social/domain/user.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/http/routes/AuthRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/scala/com/social/http/routes/AuthRoutes.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/http/validation/Validators.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/scala/com/social/http/validation/Validators.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/scala/com/social/core/AuthSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/scala/com/social/core/AuthSpec.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/scala/com/social/fixtures/UserFixture.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/scala/com/social/fixtures/UserFixture.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/scala/com/social/http/routes/AuthRoutesSpec.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +86,7 @@
       <recent name="com.social" />
     </key>
   </component>
-  <component name="RunManager" selected="sbt Task.compile javascript">
+  <component name="RunManager" selected="Application.Application">
     <configuration name="Application" type="Application" factoryName="Application" activateToolWindowBeforeRun="false" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.social.Application" />
       <module name="typelevel.server" />
@@ -272,7 +262,8 @@
       <workItem from="1685920016692" duration="2167000" />
       <workItem from="1686004813890" duration="5234000" />
       <workItem from="1686092109932" duration="5539000" />
-      <workItem from="1686248844210" duration="8027000" />
+      <workItem from="1686248844210" duration="8287000" />
+      <workItem from="1686402159008" duration="4970000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -533,7 +524,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686097925507</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Completed SignUpPage.">
+      <created>1686266073987</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1686266073987</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -551,7 +549,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented payload validation." />
     <MESSAGE value="Added filtering and pagination to all query." />
     <MESSAGE value="Added testing for filtering and pagination in all query." />
     <MESSAGE value="Implemented Users." />
@@ -576,6 +573,7 @@
     <MESSAGE value="Added Header for navigation." />
     <MESSAGE value="Added pages." />
     <MESSAGE value="Started SignUpPage." />
-    <option name="LAST_COMMIT_MESSAGE" value="Started SignUpPage." />
+    <MESSAGE value="Completed SignUpPage." />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed SignUpPage." />
   </component>
 </project>
