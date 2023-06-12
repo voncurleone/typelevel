@@ -2,6 +2,7 @@ package com.social.pages
 
 import cats.effect.IO
 import com.social.common.*
+import com.social.core.Session
 import com.social.domain.*
 import com.social.domain.auth.LoginInfo
 import tyrian.{Cmd, Html}
@@ -33,7 +34,7 @@ final case class LoginPage(
       (setErrorStatus(error), Cmd.None)
 
     case LoginSuccess(token) =>
-      (setSuccessStatus(token), Cmd.None)
+      (setSuccessStatus("Success!"), Cmd.emit(Session.SetToken(email, token)))
 
     case AttemptLogin =>
       if !email.matches(Constants.emailRegex) then

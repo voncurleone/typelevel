@@ -3,7 +3,7 @@ package com.social
 import cats.effect.*
 import com.social.App.Msg
 import com.social.components.Header
-import com.social.core.Router
+import com.social.core.{Router, Session}
 import com.social.pages.Page
 
 import scala.scalajs.js.annotation.*
@@ -23,7 +23,9 @@ class App extends TyrianApp[App.Msg, App.Model] {
     val page = Page.getPage(location)
     val pageCmd = page.initCmd
     val (router, routerCmd) = Router.startAt(location)
-    (Model(router, page), routerCmd |+| pageCmd)
+    val session = Session()
+    val sessionCmd = session.initCmd
+    (Model(router, session, page), routerCmd |+| pageCmd |+| sessionCmd)
 
   override def subscriptions(model: Model): Sub[IO, Msg] =
     Sub.make("urlChange", model.router.history.state.discrete //listener for browser history changes
@@ -41,9 +43,14 @@ class App extends TyrianApp[App.Msg, App.Model] {
         val newPageCmd = newPage.initCmd
         (model.copy(router = newRouter, page = newPage), routerCmd |+| newPageCmd)
 
-    case msg: Page.Msg =>
+    case msg: Session.Msg =>
+      val (newSession, sessionCmd) = model.session.update(msg)
+      (model.copy(session = newSession), sessionCmd)
+
+    case msg: App.Msg =>
       val (newPage, cmd) = model.page.update(msg)
       (model.copy(page = newPage), cmd)
+
 
   override def view(model: Model): Html[Msg] =
     div(
@@ -53,7 +60,8 @@ class App extends TyrianApp[App.Msg, App.Model] {
 }
 
 object App {
-  type Msg = Router.Msg | Page.Msg
+  //type Msg = Router.Msg | Page.Msg
+  trait Msg
 
-  case class Model(router: Router, page: Page)
+  case class Model(router: Router, session: Session, page: Page)
 }

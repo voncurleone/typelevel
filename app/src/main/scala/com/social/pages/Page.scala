@@ -1,6 +1,7 @@
 package com.social.pages
 
 import cats.effect.IO
+import com.social.App
 import com.social.pages.Page.Msg
 import tyrian.{Cmd, Html}
 
@@ -11,7 +12,7 @@ abstract class Page {
 }
 
 object Page {
-  trait Msg
+  type Msg = App.Msg
 
   enum StatusKind {
     case SUCCESS, ERROR, LOADING

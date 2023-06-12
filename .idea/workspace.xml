@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Completed SignUpPage.">
+      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Session.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Constants.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Constants.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/App.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/App.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Router.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Router.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/SignUpPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/SignUpPage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,6 +266,8 @@
       <workItem from="1686092109932" duration="5539000" />
       <workItem from="1686248844210" duration="8287000" />
       <workItem from="1686402159008" duration="4970000" />
+      <workItem from="1686588966831" duration="1394000" />
+      <workItem from="1686603858341" duration="299000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>

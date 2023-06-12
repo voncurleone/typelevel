@@ -1,6 +1,7 @@
 package com.social.core
 
 import cats.effect.IO
+import com.social.App
 import com.social.core.Router.{ChangeLocation, Msg}
 import fs2.dom.History
 import tyrian.Cmd
@@ -24,7 +25,7 @@ case class Router private (location: String, history: History[IO, String]) {
 }
 
 object Router {
-  trait Msg
+  trait Msg extends App.Msg
   case class ChangeLocation(location: String, browserTriggered: Boolean = false) extends Msg
   case class ExternalRedirect(location: String) extends Msg
 
