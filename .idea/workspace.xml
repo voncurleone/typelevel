@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Completed SignUpPage.">
-      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Session.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Completed Session.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/App.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/App.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Router.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Router.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Constants.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Constants.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Session.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/core/Session.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +87,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Application">
-    <configuration name="Application" type="Application" factoryName="Application" activateToolWindowBeforeRun="false" temporary="true">
+    <configuration name="Application" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
       <option name="MAIN_CLASS_NAME" value="com.social.Application" />
       <module name="typelevel.server" />
       <extension name="coverage">
@@ -175,7 +173,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Application" />
         <item itemvalue="npm.start" />
         <item itemvalue="ScalaTest.AuthRoutesSpec" />
         <item itemvalue="ScalaTest.AuthSpec" />
@@ -267,7 +264,8 @@
       <workItem from="1686248844210" duration="8287000" />
       <workItem from="1686402159008" duration="4970000" />
       <workItem from="1686588966831" duration="1394000" />
-      <workItem from="1686603858341" duration="299000" />
+      <workItem from="1686603858341" duration="471000" />
+      <workItem from="1686667347357" duration="4719000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -535,7 +533,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686266073987</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Completed Session.">
+      <created>1686604263133</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1686604263133</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -553,7 +558,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added filtering and pagination to all query." />
     <MESSAGE value="Added testing for filtering and pagination in all query." />
     <MESSAGE value="Implemented Users." />
     <MESSAGE value="Added users table to database init script." />
@@ -578,6 +582,7 @@
     <MESSAGE value="Added pages." />
     <MESSAGE value="Started SignUpPage." />
     <MESSAGE value="Completed SignUpPage." />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed SignUpPage." />
+    <MESSAGE value="Completed Session." />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed Session." />
   </component>
 </project>

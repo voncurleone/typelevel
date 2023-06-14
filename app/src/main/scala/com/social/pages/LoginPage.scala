@@ -34,7 +34,7 @@ final case class LoginPage(
       (setErrorStatus(error), Cmd.None)
 
     case LoginSuccess(token) =>
-      (setSuccessStatus("Success!"), Cmd.emit(Session.SetToken(email, token)))
+      (setSuccessStatus("Success!"), Cmd.emit(Session.SetToken(email, token, isFreshUser = true)))
 
     case AttemptLogin =>
       if !email.matches(Constants.emailRegex) then
