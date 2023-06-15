@@ -38,5 +38,6 @@ object Page {
     val EMPTY = ""
     val HOME = "/"
     val POSTS = "/posts"
+    val Hash = "#"
   }
 }

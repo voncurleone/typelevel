@@ -67,7 +67,7 @@ final case class LoginPage(
   //ui
   private def renderInput(name: String, uid: String, kind: String, isRequired: Boolean, onChange: String => Msg) =
     div(`class` := "form-input")(
-      label(`for` := name, `class` := "form-label")(
+      label(`for` := uid, `class` := "form-label")(
         if isRequired then span("*") else span(),
         text(name)
       ),
@@ -98,7 +98,7 @@ object LoginPage {
   object Endpoints {
     import com.social.common.Endpoint
     val login = new Endpoint[Msg] {
-      override val location: String = Constants.Endpoints.login
+      override val location: String = Constants.endpoints.login
       override val method: Method = Method.Post
       override val onSuccess: Response => Msg = response => {
         val tokenOption = response.headers.get("authorization")
