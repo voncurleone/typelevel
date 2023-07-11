@@ -21,10 +21,16 @@ trait Users[F[_]] {
 
 final class LiveUsers[F[_]: MonadCancelThrow: Logger](xa: Transactor[F]) extends Users[F] {
   override def find(email: String): F[Option[User]] =
-    sql"SELECT * FROM users WHERE email = $email"
+    val query = sql"SELECT * FROM users WHERE email = $email"
       .query[User]
       .option
       .transact(xa)
+
+    /*for {
+      q <- query
+      _ <- Logger[F].info(s"query result: $q")
+    } yield q*/
+    query
 
   override def create(user: User): F[Option[String]] =
     sql"""

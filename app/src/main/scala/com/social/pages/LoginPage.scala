@@ -1,6 +1,7 @@
 package com.social.pages
 
 import cats.effect.IO
+import com.social.App
 import com.social.common.*
 import com.social.core.Session
 import com.social.domain.*
@@ -17,11 +18,8 @@ final case class LoginPage(
     email: String = "",
     password: String = "",
     status: Option[Page.Status] = None
-                          ) extends Page {
+                          ) extends FormPage("Login", status) {
   import com.social.pages.LoginPage.*
-
-  override def initCmd: Cmd[IO, Page.Msg] =
-    Cmd.None
 
   override def update(msg: Page.Msg): (Page, Cmd[IO, Page.Msg]) = msg match
     case UpdateEmail(email) =>
@@ -45,34 +43,15 @@ final case class LoginPage(
 
     case a @ _ => (this, Logger.consoleLog(s"Unhandled message: $a"))
 
-  override def view(): Html[Page.Msg] =
-    div(`class` := "form-section")(
-      div(`class` := "top-section")(
-        h1("Login")
-      ),
-      form(name := "Login", `class` := "form", onEvent("submit", e => {
-        e.preventDefault()
-        NoOp
-      }))(
-        renderInput("Email", "email", "text", true, UpdateEmail.apply),
-        renderInput("Password", "password", "password", true, UpdatePassword.apply),
-        button(`type` := "button", onClick(AttemptLogin))("Login"),
-        status.map(status => div(status.message)).getOrElse(div())
-      )
-    )
-
-
-
   //private stuff
   //ui
-  private def renderInput(name: String, uid: String, kind: String, isRequired: Boolean, onChange: String => Msg) =
-    div(`class` := "form-input")(
-      label(`for` := uid, `class` := "form-label")(
-        if isRequired then span("*") else span(),
-        text(name)
-      ),
-      input(`type` := kind, `class` := "form-control", id := uid, onInput(onChange))
-    )
+
+  override protected def renderFormContent(): List[Html[App.Msg]] = List(
+    renderInput("Email", "email", "text", true, UpdateEmail.apply),
+    renderInput("Password", "password", "password", true, UpdatePassword.apply),
+    button(`type` := "button", onClick(AttemptLogin))("Login"),
+    renderAuxLink(Page.Urls.FORGOT_PASSWORD, "Forgot password?")
+  )
 
   //util
   def setErrorStatus(message: String): Page =
@@ -100,7 +79,7 @@ object LoginPage {
     val login = new Endpoint[Msg] {
       override val location: String = Constants.endpoints.login
       override val method: Method = Method.Post
-      override val onSuccess: Response => Msg = response => {
+      override val onResponse: Response => Msg = response => {
         val tokenOption = response.headers.get("authorization")
         tokenOption match
           case Some(token) => LoginSuccess(token)

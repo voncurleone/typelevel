@@ -90,6 +90,7 @@ class AuthRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (auth: Auth[
     case request @ POST -> Root / "reset" =>
       for {
         fpInfo <- request.as[ForgotPasswordInfo]
+        //_ <- Logger[F].info(s"forgot pass route2: ${fpInfo.email}")
         _ <- auth.sendPasswordRecoveryToken(fpInfo.email)
         response <- Ok()
       } yield response

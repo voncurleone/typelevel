@@ -23,6 +23,7 @@ class LiveTokens[F[_]: MonadCancelThrow: Logger](users: Users[F])(xa: Transactor
       case Some(_) => //create or refresh
         getFreshToken(email).map(Some(_))
     }
+
   override def checkToken(email: String, token: String): F[Boolean] =
     sql"""
          SELECT token

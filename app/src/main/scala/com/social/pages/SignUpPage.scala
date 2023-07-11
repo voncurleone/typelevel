@@ -1,6 +1,7 @@
 package com.social.pages
 
 import cats.effect.IO
+import com.social.App
 import tyrian.{Cmd, Html}
 import tyrian.Html.*
 import tyrian.cmds.Logger
@@ -20,11 +21,8 @@ final case class SignUpPage(
    firstName: String = "",
    lastName: String = "",
    status: Option[Page.Status] = None
-                           ) extends Page {
+                           ) extends FormPage("Sign Up", status) {
   import com.social.pages.SignUpPage.*
-
-  override def initCmd: Cmd[IO, Page.Msg] =
-    Cmd.None
 
   override def update(msg: Page.Msg): (Page, Cmd[IO, Page.Msg]) = msg match {
     case UpdateEmail(email) =>
@@ -72,36 +70,18 @@ final case class SignUpPage(
       (this, Cmd.None)
   }
 
-  override def view(): Html[Page.Msg] =
-    div(`class` := "form-section")(
-      div(`class` := "top-section")(
-        h1("Sign Up")
-      ),
-      form(name := "signin", `class` := "form", onEvent("submit", e => {
-        e.preventDefault()
-        NoOp
-      }))(
-        renderInput("Email", "email", "text", true, UpdateEmail.apply),
-        renderInput("Handle", "handle", "text", true, UpdateHandle.apply),
-        renderInput("Password", "password", "password", true, UpdatePassword.apply),
-        renderInput("Confirm Password", "confirmPassword", "password", true, UpdateConfirmPassword.apply),
-        renderInput("First Name", "firstName", "text", false, UpdateFirstName.apply),
-        renderInput("Last Name", "lastName", "text", false, UpdateLastName.apply),
-        button(`type` := "button", onClick(AttemptSignUp))("Sign Up"),
-        status.map(status => div(status.message)).getOrElse(div())
-      )
-    )
+  override protected def renderFormContent(): List[Html[App.Msg]] = List(
+    renderInput("Email", "email", "text", true, UpdateEmail.apply),
+    renderInput("Handle", "handle", "text", true, UpdateHandle.apply),
+    renderInput("Password", "password", "password", true, UpdatePassword.apply),
+    renderInput("Confirm Password", "confirmPassword", "password", true, UpdateConfirmPassword.apply),
+    renderInput("First Name", "firstName", "text", false, UpdateFirstName.apply),
+    renderInput("Last Name", "lastName", "text", false, UpdateLastName.apply),
+    button(`type` := "button", onClick(AttemptSignUp))("Sign Up")
+  )
 
   //private stuff
   //ui
-  private def renderInput(name: String, uid: String, kind: String, isRequired: Boolean, onChange: String => Msg) =
-    div(`class` := "form-input")(
-      label(`for` := name, `class` := "form-label")(
-        if isRequired then span("*") else span(),
-        text(name)
-      ),
-      input(`type` := kind, `class` := "form-control", id := uid, onInput(onChange))
-    )
 
   //util
   def setErrorStatus(message: String): Page =
@@ -132,7 +112,7 @@ object SignUpPage {
     val signUp = new Endpoint[Msg] {
       override val location: String = Constants.endpoints.signup
       override val method: Method = Method.Post
-      override val onSuccess: Response => Msg = response => response.status match
+      override val onResponse: Response => Msg = response => response.status match
         case Status(201, _) =>
           SignUpSuccess("Sign up Successful! login now.")
 
