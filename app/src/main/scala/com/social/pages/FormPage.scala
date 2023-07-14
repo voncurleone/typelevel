@@ -4,15 +4,18 @@ import cats.effect.IO
 import com.social.App
 import com.social.core.Router
 import com.social.pages.Page.Msg
+import org.scalajs.dom.HTMLFormElement
 import tyrian.{Cmd, Html}
 import tyrian.Html.*
+import org.scalajs.dom.*
+import scala.concurrent.duration.DurationInt
 
 abstract class FormPage(title: String, status: Option[Page.Status]) extends Page{
   //abstract api
   protected def renderFormContent(): List[Html[App.Msg]] // for every page to override
 
   //public api
-  override def initCmd: Cmd[IO, Msg] = Cmd.None
+  override def initCmd: Cmd[IO, Msg] = clearForm()
 
   override def view(): Html[Msg] =
     renderForm()
@@ -23,7 +26,7 @@ abstract class FormPage(title: String, status: Option[Page.Status]) extends Page
       div(`class` := "top-section")(
         h1(title)
       ),
-      form(name := "Login", `class` := "form", onEvent("submit", e => {
+      form(name := "Login", id := "form", `class` := "form", onEvent("submit", e => {
         e.preventDefault()
         App.NoOp
       }))(
@@ -46,4 +49,17 @@ abstract class FormPage(title: String, status: Option[Page.Status]) extends Page
       e.preventDefault() //prevent page from reloading
       Router.ChangeLocation(location)
     }))(text)
+
+  //private
+  private def clearForm() =
+    Cmd.Run[IO, Unit, App.Msg] {
+      def effect: IO[Option[HTMLFormElement]] = for {
+        maybeForm <- IO(Option(document.getElementById("form").asInstanceOf[HTMLFormElement]))
+        finalForm <-
+          if(maybeForm.isEmpty) IO.sleep(100.millis) *> effect
+          else IO(maybeForm)
+      } yield finalForm
+
+      effect.map(_.foreach(_.reset()))
+    }(_ => App.NoOp)
 }
