@@ -10,7 +10,7 @@ import org.http4s.{HttpRoutes, Response, Status}
 import org.http4s.server.Router
 import org.typelevel.log4cats.Logger
 import io.circe.generic.auto.*
-import com.social.domain.user.{User}
+import com.social.domain.user.User
 import com.social.http.responses.Responses.FailureResponse
 import org.http4s.circe.CirceEntityCodec.*
 import tsec.authentication.{SecuredRequestHandler, TSecAuthService, asAuthed}
@@ -54,13 +54,20 @@ class AuthRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (auth: Auth[
   //PUT /auth/users/password { NewPasswordInfo } { authorization: Bearer {jwt} } => 200 ok
   private val changePasswordRoute: AuthRoute[F] = {
     case secureRequest @ PUT -> Root / "users" / "password" asAuthed user =>
-      secureRequest.request.validate[NewPasswordInfo] { newPasswordInfo =>
+      val request = secureRequest.request
+      request.validate[NewPasswordInfo] { _ => /*validate doesnt parse payload correctly... _ was $newPasswordInfo*/
         for {
-          userOrError <- auth.changePassword(user.email, newPasswordInfo)
+          npi <- request.as[NewPasswordInfo]
+          //_ <- Logger[F].info(s"request: $npi")
+          //_ <- Logger[F].info(s"changePasswordRoute password indo: $newPasswordInfo")
+          userOrError <- auth.changePassword(user.email, npi)
+          //_ <- Logger[F].info(s"userOrError: $userOrError")
           response <- userOrError match
             case Right(Some(_)) => Ok()
             case Right(None) => NotFound(FailureResponse(s"User: ${user.email} not found"))
             case Left(_) => Forbidden()
+
+          //_ <- Logger[F].info(s"response: $response")
         } yield response
       }
   }
@@ -113,7 +120,7 @@ class AuthRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (auth: Auth[
   }
   
   val unauthedRoutes = loginRoute <+> createUserRoute <+> forgotPasswordRoute <+> recoverPasswordRoute
-  val authedRoutes = SecuredHandler[F].liftService(
+  val authedRoutes: HttpRoutes[F] = SecuredHandler[F].liftService(
     changePasswordRoute.restrictedTo(allRoles) |+|
     logoutRoute.restrictedTo(allRoles) |+|
     deleteUserRoute.restrictedTo(adminOnly) |+|

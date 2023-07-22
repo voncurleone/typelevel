@@ -41,7 +41,10 @@ final case class LoginPage(
         (setErrorStatus("Please enter a password"), Cmd.None)
       else (this, Commands.Login(LoginInfo(email, password)))
 
-    case a @ _ => (this, Logger.consoleLog(s"Unhandled message: $a"))
+    case App.NoOp =>
+      (this, Cmd.None)
+
+    case a @ _ => (this, Logger.consoleLog(s"Unhandled message: ${a.getClass}"))
 
   //private stuff
   //ui
@@ -62,7 +65,7 @@ final case class LoginPage(
 }
 
 object LoginPage {
-  trait Msg extends Page.Msg
+  trait Msg extends App.Msg
   case class UpdateEmail(email: String) extends Msg
   case class UpdatePassword(password: String) extends Msg
 
@@ -76,7 +79,7 @@ object LoginPage {
 
   object Endpoints {
     import com.social.common.Endpoint
-    val login = new Endpoint[Msg] {
+    val login: Endpoint[Msg] = new Endpoint[Msg] {
       override val location: String = Constants.endpoints.login
       override val method: Method = Method.Post
       override val onResponse: Response => Msg = response => {

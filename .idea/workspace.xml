@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Completed forgot password flow.">
-      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ResetPasswordPage.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Completed Reset password page.">
+      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ProfilePage.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Constants.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/common/Constants.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ForgotPasswordPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ForgotPasswordPage.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/FormPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/FormPage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/components/Header.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/components/Header.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/RecoverPasswordPage.scala" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/core/Auth.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/scala/com/social/core/Auth.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/http/routes/AuthRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/scala/com/social/http/routes/AuthRoutes.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +91,7 @@
       <recent name="com.social" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Application">
+  <component name="RunManager" selected="sbt Task.compile javascript">
     <configuration name="Application" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
       <option name="MAIN_CLASS_NAME" value="com.social.Application" />
       <module name="typelevel.server" />
@@ -106,6 +107,19 @@
     </configuration>
     <configuration name="EmailsEffectPlayground" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.social.playground.EmailsEffectPlayground" />
+      <module name="typelevel.server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.social.playground.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PasswordHashingPlayground" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.social.playground.PasswordHashingPlayground" />
       <module name="typelevel.server" />
       <extension name="coverage">
         <pattern>
@@ -169,6 +183,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.Application" />
+      <item itemvalue="Application.PasswordHashingPlayground" />
       <item itemvalue="Application.EmailsEffectPlayground" />
       <item itemvalue="npm.start" />
       <item itemvalue="sbt Task.compile javascript" />
@@ -178,6 +193,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.start" />
+        <item itemvalue="Application.PasswordHashingPlayground" />
         <item itemvalue="Application.EmailsEffectPlayground" />
         <item itemvalue="ScalaTest.AuthRoutesSpec" />
         <item itemvalue="ScalaTest.AuthSpec" />
@@ -273,7 +289,18 @@
       <workItem from="1689079837393" duration="3367000" />
       <workItem from="1689111963872" duration="128000" />
       <workItem from="1689196966519" duration="1819000" />
-      <workItem from="1689271350818" duration="4889000" />
+      <workItem from="1689271350818" duration="6217000" />
+      <workItem from="1689348486212" duration="5620000" />
+      <workItem from="1689605000627" duration="9000" />
+      <workItem from="1689605016244" duration="294000" />
+      <workItem from="1689623203352" duration="1248000" />
+      <workItem from="1689624510824" duration="226000" />
+      <workItem from="1689625180360" duration="1301000" />
+      <workItem from="1689693299755" duration="1953000" />
+      <workItem from="1689703944382" duration="1203000" />
+      <workItem from="1689714848791" duration="1947000" />
+      <workItem from="1689856702407" duration="9106000" />
+      <workItem from="1690063660387" duration="98000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit.">
       <created>1682116203006</created>
@@ -562,7 +589,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689112051569</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Completed Reset password page.">
+      <created>1689299656430</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1689299656430</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -580,7 +614,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added users table to database init script." />
     <MESSAGE value="Auth api TDD style." />
     <MESSAGE value="Auth api implemented." />
     <MESSAGE value="Auth http api stubs." />
@@ -605,6 +638,7 @@
     <MESSAGE value="Completed Session." />
     <MESSAGE value="Completed Session cookies." />
     <MESSAGE value="Completed forgot password flow." />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed forgot password flow." />
+    <MESSAGE value="Completed Reset password page." />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed Reset password page." />
   </component>
 </project>

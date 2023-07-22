@@ -25,6 +25,7 @@ object Page {
     case `SIGN_UP` => SignUpPage()
     case `FORGOT_PASSWORD` => ForgotPasswordPage()
     case `RESET_PASSWORD` => ResetPasswordPage()
+    case `PROFILE_PAGE` => ProfilePage()
     case `EMPTY` | `HOME` | `POSTS` => PostFeedPage()
     case s"/posts/$id" => PostPage(id)
     case _ => NotFoundPage()
@@ -35,6 +36,7 @@ object Page {
     val SIGN_UP = "/signup"
     val FORGOT_PASSWORD = "/forgotpassword"
     val RESET_PASSWORD = "/resetpassword"
+    val PROFILE_PAGE = "/profile"
     val EMPTY = ""
     val HOME = "/"
     val POSTS = "/posts"

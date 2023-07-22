@@ -57,19 +57,23 @@ class LiveAuth[F[_]: Async: Logger] private
   override def changePassword(email: String, passwordInfo: NewPasswordInfo): F[Either[String, Option[User]]] =
     users.find(email).flatMap {
       case None => Right(None).pure[F]
-      case Some(user) => checkAndUpdate(user, passwordInfo)
+      case Some(user) => //Logger[F].info(s"Found user: $user") *> 
+        checkAndUpdate(user, passwordInfo)
     }
 
   private def updateUser(user: User, newPass: String): F[Option[User]] = for {
     hashedPass <- BCrypt.hashpw[F](newPass)
     updatedUser <- users.update(user.copy(hashedPass = hashedPass))
+    //_ <- Logger[F].info(s"preUpdatedUser: $user") *> Logger[F].info(s"updatedUser: $updatedUser")
   } yield updatedUser
 
   private def checkAndUpdate(user: User, passwordInfo: NewPasswordInfo): F[Either[String, Option[User]]] = for {
+    //_ <- Logger[F].info(s"checkAndUpdate password info: $passwordInfo")
     isValidPass <- BCrypt.checkpwBool[F](passwordInfo.oldPassword, PasswordHash[BCrypt](user.hashedPass))
     updateResult <-
       if isValidPass then updateUser(user, passwordInfo.newPassword).map(Right(_))
       else Left("Invalid password").pure[F]
+    //_ <- Logger[F].info(s"updateResult: $updateResult")
   } yield updateResult
 
   override def delete(email: String): F[Boolean] =
