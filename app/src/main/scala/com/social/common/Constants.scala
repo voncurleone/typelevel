@@ -12,6 +12,7 @@ object Constants {
     val forgotPassword = s"$root/api/auth/reset"
     val resetPassword = s"$root/api/auth/recover"
     val profileReset = s"$root/api/auth/users/password"
+    val makePost = s"$root/api/posts/create"
   }
 
   object cookies {

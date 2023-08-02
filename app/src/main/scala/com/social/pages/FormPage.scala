@@ -35,7 +35,7 @@ abstract class FormPage(title: String, status: Option[Page.Status]) extends Page
       status.map(status => div(status.message)).getOrElse(div())
     )
 
-  protected def renderInput(name: String, uid: String, kind: String, isRequired: Boolean, onChange: String => Msg) =
+  protected def renderInput(name: String, uid: String, kind: String, isRequired: Boolean, onChange: String => Msg): Html[App.Msg] =
     div(`class` := "form-input")(
       label(`for` := uid, `class` := "form-label")(
         if isRequired then span("*") else span(),
@@ -49,6 +49,15 @@ abstract class FormPage(title: String, status: Option[Page.Status]) extends Page
       e.preventDefault() //prevent page from reloading
       Router.ChangeLocation(location)
     }))(text)
+
+  protected def renderTextArea(name: String, uid: String, isRequired: Boolean, onChange: String => Msg): Html[App.Msg] =
+    div(`class` := "form-input")(
+      label(`for` := uid, `class` := "form-label")(
+        if isRequired then span("*") else span(),
+        text(name)
+      ),
+      textarea(`class` := "form-control", id := uid, onInput(onChange))("")
+    )
 
   //private
   private def clearForm() =

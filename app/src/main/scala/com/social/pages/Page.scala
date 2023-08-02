@@ -20,12 +20,13 @@ object Page {
   final case class Status(message: String, kind: StatusKind)
 
   import Urls.*
-  def getPage(location: String) = location match {
+  def getPage(location: String): Page = location match {
     case `LOGIN` => LoginPage()
     case `SIGN_UP` => SignUpPage()
     case `FORGOT_PASSWORD` => ForgotPasswordPage()
     case `RESET_PASSWORD` => ResetPasswordPage()
     case `PROFILE_PAGE` => ProfilePage()
+    case `MAKE_POST` => MakePostPage()
     case `EMPTY` | `HOME` | `POSTS` => PostFeedPage()
     case s"/posts/$id" => PostPage(id)
     case _ => NotFoundPage()
@@ -37,6 +38,7 @@ object Page {
     val FORGOT_PASSWORD = "/forgotpassword"
     val RESET_PASSWORD = "/resetpassword"
     val PROFILE_PAGE = "/profile"
+    val MAKE_POST = "/makepost"
     val EMPTY = ""
     val HOME = "/"
     val POSTS = "/posts"
