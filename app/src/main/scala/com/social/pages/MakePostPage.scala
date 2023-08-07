@@ -26,7 +26,7 @@ case class MakePostPage(
 
     override protected def renderFormContent(): List[Html[App.Msg]] = List(
       renderTextArea("Text", "text", true, UpdateText.apply),
-      renderInput("Tags", "tags", "text", true, UpdateTags.apply),
+      renderInput("Tags", "tags", "text", false, UpdateTags.apply),
       renderImageUploadInput("Image", "image", image, UpdateImageFile.apply),
       button(`type` := "button", onClick(AttemptPost))("post")
     )
