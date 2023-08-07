@@ -10,6 +10,8 @@ import tyrian.*
 import tyrian.cmds.Logger
 import io.circe.generic.auto.*
 import io.circe.parser.*
+import org.scalajs.dom.{File, FileReader}
+import cats.syntax.traverse.*
 
 case class MakePostPage(
                          text: String = "",
@@ -25,6 +27,7 @@ case class MakePostPage(
     override protected def renderFormContent(): List[Html[App.Msg]] = List(
       renderTextArea("Text", "text", true, UpdateText.apply),
       renderInput("Tags", "tags", "text", true, UpdateTags.apply),
+      renderImageUploadInput("Image", "image", image, UpdateImageFile.apply),
       button(`type` := "button", onClick(AttemptPost))("post")
     )
 
@@ -34,6 +37,12 @@ case class MakePostPage(
 
       case UpdateTags(tags) =>
         (this.copy(tags = Some(tags)), Cmd.None)
+
+      case UpdateImageFile(maybeFile) =>
+        (this, Commands.loadFile(maybeFile))
+
+      case UpdateImage(image) =>
+        (this.copy(image = image), Logger.consoleLog[IO](s"image: $image"))
 
       case PostFailure(error) =>
         (setErrorStatus(error), Cmd.None)
@@ -71,6 +80,8 @@ object MakePostPage {
   trait Msg extends App.Msg
   case class UpdateText(text: String) extends Msg
   case class UpdateTags(tags: String) extends Msg
+  case class UpdateImageFile(file: Option[File]) extends Msg
+  case class UpdateImage(image: Option[String]) extends Msg
 
   //actions
   case object AttemptPost extends Msg
@@ -112,5 +123,20 @@ object MakePostPage {
           image
         )
       )
+
+    def loadFile(maybeFile: Option[File]): Cmd[IO, Msg] =
+      Cmd.Run[IO, Option[String], Msg](
+        maybeFile.traverse { file =>
+          IO.async_ { cb =>
+            //create reader
+            val reader = new FileReader
+            //set onload
+            reader.onload = _ =>
+              cb(Right(reader.result.toString))
+            //trigger the reader
+            reader.readAsDataURL(file)
+          }
+        }
+      )(UpdateImage.apply)
   }
 }

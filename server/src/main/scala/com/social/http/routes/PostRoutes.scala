@@ -51,12 +51,11 @@ class PostRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (posts: Post
 
   //POST /posts/create { jobInfo }
   private val createPostRoute: AuthRoute[F] = {
-    case request @ POST -> Root / "create" asAuthed _ =>
+    case request @ POST -> Root / "create" asAuthed user =>
       request.request.validate[PostInfo] { postInfo =>
         for {
           _ <- Logger[F].info("Creating post: simple log example")
-          //Todo: fix owner email to be correct!!!!
-          postId <- posts.create("todo@todo.com", postInfo).log(
+          postId <- posts.create(user.email, postInfo).log(
             a => s"Creating post: $a",
             e => s"Error creating post: $e"
           )

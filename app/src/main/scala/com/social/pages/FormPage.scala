@@ -44,6 +44,34 @@ abstract class FormPage(title: String, status: Option[Page.Status]) extends Page
       input(`type` := kind, `class` := "form-control", id := uid, onInput(onChange))
     )
 
+  protected def renderImageUploadInput(name: String, uid: String, imageSrc: Option[String], onChange: Option[File]  => Msg): Html[App.Msg] =
+    div(`class` := "form-input")(
+      label(`for` := uid, `class` := "form-label")(
+        name
+      ),
+      input(`type` := "file",
+        `class` := "form-control",
+        id := uid,
+        accept := "image/*",
+        onEvent("change",
+          e =>
+            val imageInput = e.target.asInstanceOf[HTMLInputElement]
+            val fileList = imageInput.files
+            if(fileList.length > 0)
+              onChange(Some(fileList(0)))
+            else
+              onChange(None)
+        )
+      ),
+      img(
+        id := "preview",
+        src := imageSrc.getOrElse(""),
+        alt := "Preview",
+        width := 100,
+        height := 100
+      )
+    )
+
   protected def renderAuxLink(location: String, text: String): Html[App.Msg] =
     a(href := location, `class` := "aux-link", onEvent("click", e => {
       e.preventDefault() //prevent page from reloading
