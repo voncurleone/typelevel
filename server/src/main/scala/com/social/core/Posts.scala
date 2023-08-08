@@ -258,6 +258,7 @@ object PostFragments {
           (SELECT MAX(dislikes) FROM posts) AS maxDisLikes,
           (SELECT ARRAY_AGG(DISTINCT tag) FROM (SELECT UNNEST(tags) AS tag FROM posts) AS subquery) AS tags,
           false AS constant_false
-        FROM posts AS hidden;
+        FROM posts AS hidden
+        LIMIT 1
          """
 }

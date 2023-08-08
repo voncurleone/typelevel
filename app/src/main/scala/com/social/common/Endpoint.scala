@@ -5,7 +5,8 @@ import com.social.core.Session
 import io.circe.Encoder
 import io.circe.syntax.*
 import tyrian.Cmd
-import tyrian.http.{Body, Decoder, Header, Http, HttpError, Method, Request, Response}
+import tyrian.http.{Body, Decoder, Header, Http, HttpError, Method, Request, Response, Status}
+import io.circe.parser.*
 
 trait Endpoint[M] {
   val location: String
@@ -52,4 +53,18 @@ trait Endpoint[M] {
       ),
       Decoder[M](onResponse, onError)
     )
+}
+
+object Endpoint {
+  def onResponse[A: io.circe.Decoder, Msg](valueCB: A => Msg, errorCB: String => Msg): Response => Msg =
+    response => response.status match
+      case Status(s, _) if s >= 200 && s < 300 =>
+        val json = response.body
+        val parsed = parse(json).flatMap(_.as[A])
+        parsed match
+          case Left(error) => errorCB(s"Parsing error: $error")
+          case Right(value) => valueCB(value)
+
+      case Status(s, m) if s >= 400 && s < 600 =>
+        errorCB(s"Error: $m")
 }

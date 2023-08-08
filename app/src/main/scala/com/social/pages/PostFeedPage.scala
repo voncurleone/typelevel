@@ -6,17 +6,19 @@ import tyrian.{Cmd, Html}
 import PostFeedPage.*
 import com.social.App
 import com.social.common.{Constants, Endpoint}
+import com.social.components.FilterPanel
 import tyrian.http.{HttpError, Method, Response, Status}
 import io.circe.parser.*
 import io.circe.generic.auto.*
 
 final case class PostFeedPage(
+    filterPanel: FilterPanel = FilterPanel(),
     posts: List[Post] = List(),
     canLoadMore: Boolean = true,
     status: Option[Page.Status] = Some(Page.Status("Loading", Page.StatusKind.LOADING))
                              ) extends Page {
   override def initCmd: Cmd[IO, Page.Msg] =
-    Commands.getPosts()
+    Commands.getPosts() |+| filterPanel.initCmd
 
   override def update(msg: Page.Msg): (Page, Cmd[IO, Page.Msg]) = msg match
     case AddPosts(list, clm) =>
@@ -28,13 +30,20 @@ final case class PostFeedPage(
     case LoadMorePosts =>
       (this, Commands.getPosts(offset = posts.length))
 
+    case msg: FilterPanel.Msg =>
+      val (newFilterPanel, cmd) = filterPanel.update(msg)
+      (this.copy(filterPanel = newFilterPanel), cmd)
+
     case _ =>
       (this, Cmd.None)
 
 
   override def view(): Html[Page.Msg] =
-    div(`class` := "posts-container")(
-      posts.map(post => renderPost(post)) ++ maybeRenderLoadMore
+    div(`class` := "post-feed-page")(
+      filterPanel.view(),
+      div(`class` := "posts-container")(
+        posts.map(post => renderPost(post)) ++ maybeRenderLoadMore
+      )
     )
 
   //ui
@@ -92,16 +101,11 @@ object PostFeedPage {
       override val location: String = Constants.endpoints.posts + s"?limit=$limit&offset=$offset"
       override val method: Method = Method.Post
       override val onError: HttpError => Msg = e => SetErrorStatus(e.toString)
-      override val onResponse: Response => Msg = response => response.status match
-        case Status(s, _) if s >= 200 && s < 300 =>
-          val json = response.body
-          val parsed = parse(json).flatMap(_.as[List[Post]])
-          parsed match
-            case Left(error) => SetErrorStatus(s"Parsing error: $error")
-            case Right(list) => AddPosts(list, canLoadMore = offset == 0 || list.nonEmpty)
-
-        case Status(s, m) if s >= 400 && s < 600 =>
-          SetErrorStatus(s"Error: $m")
+      override val onResponse: Response => Msg =
+        Endpoint.onResponse[List[Post], Msg](
+          list => AddPosts(list, canLoadMore = offset == 0 || list.nonEmpty),
+          error => SetErrorStatus(s"Error: $error")
+        )
     }
   }
 

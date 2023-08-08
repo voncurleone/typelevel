@@ -2,10 +2,11 @@ package com.social.pages
 
 import cats.effect.IO
 import com.social.App
+import com.social.components.Component
 import com.social.pages.Page.Msg
 import tyrian.{Cmd, Html}
 
-abstract class Page {
+abstract class Page extends Component[App.Msg, Page]{
   def initCmd: Cmd[IO, Msg]
   def update(msg: Msg): (Page, Cmd[IO, Msg])
   def view(): Html[Msg]
