@@ -1,6 +1,7 @@
 package com.social.core
 
 import cats.*
+import cats.effect.Async
 import cats.effect.kernel.{MonadCancelThrow, Resource}
 import cats.implicits.*
 import com.social.domain.pagination.Pagination
@@ -22,6 +23,7 @@ trait Posts[F[_]] {
   def update(id: UUID, postInfo: PostInfo): F[Option[Post]]
   def hide(id: UUID): F[Int]
   def delete(id: UUID): F[Int]
+  def filters(): F[PostFilter]
 }
 
 class LivePosts[F[_]: MonadCancelThrow: Logger] private(xa: Transactor[F]) extends Posts[F] {
@@ -49,6 +51,17 @@ class LivePosts[F[_]: MonadCancelThrow: Logger] private(xa: Transactor[F]) exten
 
   override def delete(id: UUID): F[Int] =
     PostFragments.delete(id).update.run.transact(xa)
+
+  override def filters(): F[PostFilter] =
+    PostFragments.filters().query[PostFilter].option.transact(xa).map(_.getOrElse(PostFilter()))
+
+    /* testing query, requires Async instead of MonadCancelThrow
+    val yolo = xa.yolo
+    import yolo.*
+
+    val query = PostFragments.filters().query[PostFilter]
+    query.check() *>
+      query.option.transact(xa).map(_.getOrElse(PostFilter()))*/
 }
 
 /*
@@ -64,6 +77,19 @@ hidden: Boolean
 */
 
 object LivePosts{
+  given postFilterRead: Read[PostFilter] = Read[
+    (
+      List[String],
+      Option[Int],
+      Option[Int],
+      List[String],
+      Boolean
+    )
+  ].map {
+    case (text, maxLikes, maxDisLikes, tags, hidden) =>
+      PostFilter(text, maxLikes, maxDisLikes, tags, hidden) //todo: incorporate visibility(hidden)
+  }
+
   given postRead: Read[Post] = Read[(
     UUID, //id
     Long, //date
@@ -146,7 +172,7 @@ object PostFragments {
         filters.likes.map( likes => fr"likes > $likes"),
         filters.dislikes.map( dislikes => fr"dislikes > $dislikes"),
         filters.tags.toNel.map( tags =>
-          Fragments.and(tags.toList.map(tag => fr"$tag = any(tags)"): _*) //switched to and so a post must have all tags in the filter
+          Fragments.and(tags.toList.map(tag => fr"$tag = any(tags)"): _*) //switched to 'and' so a post must have all tags in the filter
         ),
         filters.hidden.some.map( hidden => fr"hidden = $hidden")
       )
@@ -222,5 +248,16 @@ object PostFragments {
             SET
                 hidden = ${true}
             WHERE id = $id
+         """
+
+  def filters(): Fragment =
+    sql"""
+        SELECT
+          '{}'::text[] AS empty_text_array,
+          (SELECT MAX(likes) FROM posts) AS maxLikes,
+          (SELECT MAX(dislikes) FROM posts) AS maxDisLikes,
+          (SELECT ARRAY_AGG(DISTINCT tag) FROM (SELECT UNNEST(tags) AS tag FROM posts) AS subquery) AS tags,
+          false AS constant_false
+        FROM posts AS hidden;
          """
 }

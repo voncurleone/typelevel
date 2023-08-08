@@ -39,6 +39,12 @@ class PostRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (posts: Post
     } yield response
   }
 
+  //GET /posts/filters
+  private val filtersRoute: HttpRoutes[F] = HttpRoutes.of[F] {
+    case GET -> Root / "filters" =>
+      posts.filters().flatMap( filter => Ok(filter))
+  }
+
   //GET /posts/uuid
   private val findPostRoute: HttpRoutes[F] = HttpRoutes.of[F] {
     case GET -> Root / UUIDVar(id) =>
@@ -92,7 +98,7 @@ class PostRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (posts: Post
       deletePostRoute.restrictedTo(registeredOnly) |+|
       updatePostRoute.restrictedTo(registeredOnly)
   )
-  val unauthedRotes = allPostsRoute <+> findPostRoute
+  val unauthedRotes = allPostsRoute <+> findPostRoute <+> filtersRoute
   val routes: HttpRoutes[F] = Router(
     "/posts" -> (unauthedRotes <+> authedRoutes)
   )

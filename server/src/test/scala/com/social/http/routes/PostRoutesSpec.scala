@@ -54,6 +54,9 @@ class PostRoutesSpec
     def delete(id: UUID): IO[Int] =
       if id == AwesomePostUuid then IO.pure(1)
       else IO.pure(0)
+
+    override def filters(): IO[PostFilter] =
+      IO.pure(PostFilter(tags = List("tag")))
   }
 
   //build jobsRoutes
@@ -174,6 +177,17 @@ class PostRoutesSpec
       } yield {
         responseOk.status shouldBe Status.Ok
         response404.status shouldBe Status.NotFound
+      }
+    }
+
+    "should surface all filters" in {
+      for {
+        response <- postRoutes.orNotFound.run {
+          Request(method = Method.GET, uri = uri"/posts/filters")
+        }
+        filter <- response.as[PostFilter]
+      } yield {
+        filter shouldBe PostFilter(tags = List("tag"))
       }
     }
   }

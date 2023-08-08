@@ -190,5 +190,23 @@ class PostsSpec
         program.asserting(_ shouldBe List())
       }
     }
+
+    "should surface a filter based on all posts" in {
+      transactor.use { xa =>
+        val program = for {
+          posts <- LivePosts[IO](xa)
+          filter <- posts.filters()
+        } yield filter
+
+        program.asserting {
+          case PostFilter(text, likes, dislikes, tags, hidden) =>
+            text shouldBe List.empty[String]
+            likes shouldBe Some(7)
+            dislikes shouldBe Some(2)
+            tags.toSet shouldBe Set("tag1", "tag2")
+            hidden shouldBe false
+        }
+      }
+    }
   }
 }
