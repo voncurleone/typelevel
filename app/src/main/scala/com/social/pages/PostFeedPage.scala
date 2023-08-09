@@ -32,7 +32,7 @@ final case class PostFeedPage(
       (setSuccessStatus(e), Cmd.None)
 
     case LoadMorePosts =>
-      (this, Commands.getPosts(offset = posts.length))
+      (this, Commands.getPosts(filter = filterPanel.filters,offset = posts.length))
 
     case msg: FilterPanel.Msg =>
       val (newFilterPanel, cmd) = filterPanel.update(msg)
