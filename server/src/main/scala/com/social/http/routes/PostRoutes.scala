@@ -35,6 +35,7 @@ class PostRoutes[F[_] : Concurrent: Logger: SecuredHandler] private (posts: Post
     case request @ POST -> Root :? LimitQueryParam(limit) +& OffsetQueryParam(offset) => for {
       filters <- request.as[PostFilter]
       postList <- posts.all(filters, Pagination(limit, offset))
+      _ <- Logger[F].info(s"PostList: $postList")
       response <- Ok(postList)
     } yield response
   }

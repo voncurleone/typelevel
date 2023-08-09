@@ -36,7 +36,7 @@ class LivePosts[F[_]: MonadCancelThrow: Logger] private(xa: Transactor[F]) exten
   override def all(filters: PostFilter, pagination: Pagination): F[List[Post]] =
     val statement = PostFragments.allFilters(filters, pagination)
 
-    Logger[F].info(statement.toString) *>
+    Logger[F].info(statement.toString) *> Logger[F].info(s"filters: $filters") *>
     statement.query[Post].to[List].transact(xa)
       .logError( e => s"Failed query ${e.getMessage}" )
 
@@ -169,8 +169,8 @@ object PostFragments {
     val whereFragment =
       Fragments.whereAndOpt(
         filters.text.toNel.map( text => Fragments.in(fr"text", text)), //Option["WHERE text in $text"]
-        filters.likes.map( likes => fr"likes > $likes"),
-        filters.dislikes.map( dislikes => fr"dislikes > $dislikes"),
+        filters.likes.map( likes => fr"likes >= $likes"),
+        filters.dislikes.map( dislikes => fr"dislikes >= $dislikes"),
         filters.tags.toNel.map( tags =>
           Fragments.and(tags.toList.map(tag => fr"$tag = any(tags)"): _*) //switched to 'and' so a post must have all tags in the filter
         ),
