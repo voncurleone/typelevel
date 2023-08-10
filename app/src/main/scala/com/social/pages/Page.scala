@@ -18,7 +18,11 @@ object Page {
   enum StatusKind {
     case SUCCESS, ERROR, LOADING
   }
+
   final case class Status(message: String, kind: StatusKind)
+  object Status {
+    val LOADING: Status = Page.Status("Loading", Page.StatusKind.LOADING)
+  }
 
   import Urls.*
   def getPage(location: String): Page = location match {
@@ -44,5 +48,6 @@ object Page {
     val HOME = "/"
     val POSTS = "/posts"
     val Hash = "#"
+    def POST(id: String) = s"/posts/$id"
   }
 }

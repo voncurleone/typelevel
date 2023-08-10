@@ -72,12 +72,6 @@ abstract class FormPage(title: String, status: Option[Page.Status]) extends Page
       )
     )
 
-  protected def renderAuxLink(location: String, text: String): Html[App.Msg] =
-    a(href := location, `class` := "aux-link", onEvent("click", e => {
-      e.preventDefault() //prevent page from reloading
-      Router.ChangeLocation(location)
-    }))(text)
-
   protected def renderTextArea(name: String, uid: String, isRequired: Boolean, onChange: String => Msg): Html[App.Msg] =
     div(`class` := "form-input")(
       label(`for` := uid, `class` := "form-label")(

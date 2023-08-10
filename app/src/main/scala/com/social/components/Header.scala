@@ -5,6 +5,7 @@ import com.social.core.{Router, Session}
 import com.social.pages.Page.Urls.*
 import tyrian.{Cmd, Html}
 import tyrian.Html.*
+import com.social.components.Anchors
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.*
@@ -24,18 +25,18 @@ object Header {
   //private api
   private def renderNavLinks(): List[Html[App.Msg]] = {
     val constantLinks = List(
-      renderSimpleNavLink("Posts", POSTS),
-      renderSimpleNavLink("Make a post", MAKE_POST)
+      Anchors.renderSimpleNavLink("Posts", POSTS),
+      Anchors.renderSimpleNavLink("Make a post", MAKE_POST)
     )
 
     val unauthedLinks = List(
-      renderSimpleNavLink("Login", LOGIN),
-      renderSimpleNavLink("Sign Up", SIGN_UP)
+      Anchors.renderSimpleNavLink("Login", LOGIN),
+      Anchors.renderSimpleNavLink("Sign Up", SIGN_UP)
     )
 
     val authedLinks = List(
-      renderSimpleNavLink("Profile", PROFILE_PAGE),
-      renderNavLink("Log out", Hash)(_ => Session.Logout)
+      Anchors.renderSimpleNavLink("Profile", PROFILE_PAGE),
+      Anchors.renderNavLink("Log out", Hash)(_ => Session.Logout)
     )
 
     constantLinks ++ (
@@ -58,16 +59,5 @@ object Header {
         src := logoImage,
         alt := "logo image"
       )
-    )
-
-  private def renderSimpleNavLink(text: String, location: String) =
-    renderNavLink(text, location)(Router.ChangeLocation(_))
-
-  private def renderNavLink(text: String, location: String)(location2Msg: String => App.Msg) =
-    li(`class` := "nav-item")(
-      a(href := location, `class` := "nav-link", onEvent("click", e => {
-        e.preventDefault() //prevent page from reloading
-        location2Msg(location)
-      }))(text)
     )
 }

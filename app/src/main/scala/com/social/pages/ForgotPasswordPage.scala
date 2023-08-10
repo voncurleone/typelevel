@@ -5,6 +5,7 @@ import com.social.App
 import tyrian.{Cmd, Html}
 import tyrian.Html.*
 import com.social.common.{Constants, Endpoint}
+import com.social.components.Anchors
 import com.social.domain.auth.ForgotPasswordInfo
 import tyrian.http.{HttpError, Method, Response}
 import io.circe.generic.auto.*
@@ -36,7 +37,7 @@ final case class ForgotPasswordPage(email: String = "", status: Option[Page.Stat
     override protected def renderFormContent(): List[Html[App.Msg]] = List(
       renderInput("Email", "email", "text", true, UpdateEmail.apply),
       button(`type` := "button", onClick(AttemptResetPassword))("Send email"),
-      renderAuxLink(Page.Urls.RESET_PASSWORD, "Reset password with token")
+      Anchors.renderSimpleNavLink("Reset password with token", Page.Urls.RESET_PASSWORD)
     )
 
   //util

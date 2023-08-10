@@ -6,7 +6,7 @@ import tyrian.{Cmd, Html}
 import PostFeedPage.*
 import com.social.App
 import com.social.common.{Constants, Endpoint}
-import com.social.components.FilterPanel
+import com.social.components.{Anchors, FilterPanel}
 import tyrian.http.{HttpError, Method, Response, Status}
 import io.circe.parser.*
 import io.circe.generic.auto.*
@@ -18,7 +18,7 @@ final case class PostFeedPage(
     ),
     posts: List[Post] = List(),
     canLoadMore: Boolean = true,
-    status: Option[Page.Status] = Some(Page.Status("Loading", Page.StatusKind.LOADING)),
+    status: Option[Page.Status] = Some(Page.Status.LOADING),
     postFilter: PostFilter = PostFilter()
                              ) extends Page {
   override def initCmd: Cmd[IO, Page.Msg] =
@@ -58,7 +58,9 @@ final case class PostFeedPage(
   private def renderPost(post: Post) =
     div(`class` := "post-card")(
       div(`class` := "post-card-content")(
-        h4(post.email),
+        h4(
+          Anchors.renderSimpleNavLink(post.email, Page.Urls.POST(post.id.toString))
+        ),
         div(`class` := "post-card-img")(
           img(
             `class` := "post-image",
@@ -66,7 +68,7 @@ final case class PostFeedPage(
             alt := post.id.toString
           )
         ),
-        div(`class` := "post-text")(post.postInfo.text),
+        div(`class` := "post-text")(post.postInfo.text), //todo: render markdown here as well
         div(`class` := "post-tags")(post.postInfo.tags.getOrElse(List()).foldLeft("")((acc, t) => acc + t + " ").trim),
         div(`class` := "post-metrics")(s"Likes: ${post.postInfo.likes} DisLikes: ${post.postInfo.disLikes}")
       ),

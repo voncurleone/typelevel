@@ -13,6 +13,7 @@ import tyrian.http.*
 import io.circe.syntax.*
 import io.circe.generic.auto.*
 import io.circe.parser.*
+import com.social.components.Anchors
 
 final case class LoginPage(
     email: String = "",
@@ -53,7 +54,7 @@ final case class LoginPage(
     renderInput("Email", "email", "text", true, UpdateEmail.apply),
     renderInput("Password", "password", "password", true, UpdatePassword.apply),
     button(`type` := "button", onClick(AttemptLogin))("Login"),
-    renderAuxLink(Page.Urls.FORGOT_PASSWORD, "Forgot password?")
+    Anchors.renderSimpleNavLink("Forgot password?", Page.Urls.FORGOT_PASSWORD)
   )
 
   //util

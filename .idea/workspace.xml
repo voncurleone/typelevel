@@ -4,10 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Completed filterPanel ui. The tag filters are currently broken. Need to fix that at some point.">
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="fixed issue with the load more button.">
+      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/components/Anchors.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/core/Posts.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/scala/com/social/core/Posts.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/scala/com/social/http/routes/PostRoutes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/scala/com/social/http/routes/PostRoutes.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/components/Header.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/components/Header.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ForgotPasswordPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ForgotPasswordPage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/FormPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/FormPage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/PostFeedPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/PostFeedPage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/PostPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/PostPage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ResetPasswordPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ResetPasswordPage.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +94,7 @@
       <recent name="com.social" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="Application.Application">
     <configuration name="Application" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
       <option name="MAIN_CLASS_NAME" value="com.social.Application" />
       <module name="typelevel.server" />
@@ -306,21 +314,9 @@
       <workItem from="1691499678548" duration="9705000" />
       <workItem from="1691515814166" duration="6711000" />
       <workItem from="1691581050183" duration="7370000" />
-      <workItem from="1691606349157" duration="1756000" />
-    </task>
-    <task id="LOCAL-00001" summary="Initial commit.">
-      <created>1682116203006</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1682116203006</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Added health endpoint in a basic http server layout.">
-      <created>1682179694214</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1682179694214</updated>
+      <workItem from="1691606349157" duration="2298000" />
+      <workItem from="1691667725357" duration="6106000" />
+      <workItem from="1691673968489" duration="3919000" />
     </task>
     <task id="LOCAL-00003" summary="Added minimal configuration.">
       <created>1682183272499</created>
@@ -651,7 +647,21 @@
       <option name="project" value="LOCAL" />
       <updated>1691589027486</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Fixed issue with the filters. There is still an issue with the load more button.">
+      <created>1691608528935</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1691608528935</updated>
+    </task>
+    <task id="LOCAL-00051" summary="fixed issue with the load more button.">
+      <created>1691608892163</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1691608892163</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -669,8 +679,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Auth stack integrated." />
-    <MESSAGE value="Protected post endponts." />
     <MESSAGE value="Refactor." />
     <MESSAGE value="Implemented recoveryTokens algebra." />
     <MESSAGE value="Implemented password recovery." />
@@ -694,6 +702,8 @@
     <MESSAGE value="completed backend filters." />
     <MESSAGE value="Added filter panel." />
     <MESSAGE value="Completed filterPanel ui. The tag filters are currently broken. Need to fix that at some point." />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed filterPanel ui. The tag filters are currently broken. Need to fix that at some point." />
+    <MESSAGE value="Fixed issue with the filters. There is still an issue with the load more button." />
+    <MESSAGE value="fixed issue with the load more button." />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed issue with the load more button." />
   </component>
 </project>

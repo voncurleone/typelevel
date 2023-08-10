@@ -12,6 +12,7 @@ import tyrian.Html.*
 import tyrian.http.{HttpError, Method, Response, Status}
 import io.circe.parser.*
 import io.circe.generic.auto.*
+import com.social.components.Anchors
 
 
 final case class ResetPasswordPage(email: String = "",
@@ -54,7 +55,7 @@ final case class ResetPasswordPage(email: String = "",
       renderInput("Token", "token", "text", true, UpdateToken.apply),
       renderInput("New Password", "password", "password", true, UpdatePassword.apply),
       button(`type` := "button", onClick(AttemptResetPassword))("Reset"),
-      renderAuxLink(Page.Urls.FORGOT_PASSWORD, "Get a token")
+      Anchors.renderSimpleNavLink("Get a token", Page.Urls.FORGOT_PASSWORD)
     )
 
     //util
@@ -75,13 +76,13 @@ object ResetPasswordPage {
   case object ResetPasswordSuccess extends Msg
 
   object Endpoints {
-    val resetPassword = new Endpoint[Msg] {
+    val resetPassword: Endpoint[Msg] = new Endpoint[Msg] {
       override val location: String = Constants.endpoints.resetPassword
       override val method: Method = Method.Post
       override val onError: HttpError => Msg = e => ResetPasswordFailure(e.toString)
       override val onResponse: Response => Msg = response => response.status match
         case Status(200, _) => ResetPasswordSuccess
-        case Status(s, _ ) if(s >= 400 && s < 500) =>
+        case Status(s, _ ) if s >= 400 && s < 500 =>
           val json = response.body
           val parsed = parse(json).flatMap(_.hcursor.get[String]("error"))
           parsed match {
