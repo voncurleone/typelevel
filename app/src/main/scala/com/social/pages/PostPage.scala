@@ -3,12 +3,11 @@ package com.social.pages
 import cats.effect.IO
 import com.social.common.{Constants, Endpoint}
 import com.social.domain.post.Post
-import com.social.pages.PostPage.{SetError, SetPost}
+import PostPage.{Commands, DislikeAction, InteractionSuccess, LikeAction, SetError, SetPost}
 import tyrian.{Cmd, Html}
 import tyrian.Html.*
-import tyrian.http.{HttpError, Method, Response}
+import tyrian.http.*
 import io.circe.generic.auto.*
-import PostPage.Commands
 import com.social.App
 import tyrian.cmds.Logger
 
@@ -29,6 +28,18 @@ final case class PostPage(id: String,
 
     case SetPost(post) =>
       (setSuccessStatus("Success").copy(post = Some(post)), Logger.consoleLog[IO]("SetPost success"))
+
+    case LikeAction => post match
+      case Some(p) =>
+        (this, Commands.like(p) |+| Logger.consoleLog[IO]("liked"))
+      case None =>
+        (this, Logger.consoleLog[IO]("liked but no post"))
+
+    case DislikeAction =>
+      (this, Logger.consoleLog[IO]("disliked"))
+
+    case InteractionSuccess(like) =>
+      (this, Logger.consoleLog[IO]("todo: implement interaction success"))
 
     case _ =>
       (this, Cmd.None)
@@ -65,7 +76,8 @@ final case class PostPage(id: String,
         renderPostContent(post)
       ),
       div(`class` := "post-interaction")(
-        "todo: like and dislike buttons" //todo: implement like and dislike buttons
+        button(`type` := "button", onClick(LikeAction))("Like"),
+        button(`type` := "button", onClick(DislikeAction))("Dislike")
       )
     )
 
@@ -102,6 +114,10 @@ object PostPage {
   case class SetError(error: String) extends Msg
   case class SetPost(post: Post) extends Msg
 
+  case object LikeAction extends Msg
+  case object DislikeAction extends Msg
+  case class InteractionSuccess(like: Boolean) extends Msg
+
   object Endpoints {
     def getPost(id: String): Endpoint[Msg] = new Endpoint[Msg] {
       override val location: String = Constants.endpoints.posts + s"/$id"
@@ -113,9 +129,24 @@ object PostPage {
           SetError.apply
         )
     }
+
+    def interact(like: Boolean, post: Post): Endpoint[Msg] = new Endpoint[Msg]:
+      override val location: String = Constants.endpoints.posts + s"/${post.id}"
+      override val method: Method = Method.Put
+      override val onError: HttpError => Msg = e => SetError(e.toString)
+      override val onResponse: Response => Msg = response => response.status match {
+        case Status(200, _) => InteractionSuccess(like)
+        case _ => SetError("Server error :(")
+      }
   }
 
   object Commands {
     def getPost(id: String): Cmd[IO, Msg] = Endpoints.getPost(id).call()
+
+    def like(post: Post): Cmd[IO, Msg] =
+      val updatedPost = post.copy(postInfo = post.postInfo.copy(likes = post.postInfo.likes + 1))
+      Endpoints.interact(true, post).authorizedCall(updatedPost)
+
+    def dislike(): Cmd[IO, Msg] = ???
   }
 }

@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="fixed issue with the load more button.">
-      <change afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/components/Anchors.scala" afterDir="false" />
+    <list default="true" id="3bf73594-0824-428d-8e91-26ccdc5f37ee" name="Changes" comment="Completed Post Page.. for now.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/components/Header.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/components/Header.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ForgotPasswordPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ForgotPasswordPage.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/FormPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/FormPage.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/LoginPage.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/Page.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/PostFeedPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/PostFeedPage.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/PostPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/PostPage.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ResetPasswordPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/scala/com/social/pages/ResetPasswordPage.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +20,23 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="SBT">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="typelevel" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -61,7 +69,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-11&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/tim/IdeaProjects/typelevel/app/src/main/scala/com/social/playground&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tim/IdeaProjects/typelevel&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -189,7 +197,7 @@
       <item itemvalue="Application.PasswordHashingPlayground" />
       <item itemvalue="Application.EmailsEffectPlayground" />
       <item itemvalue="npm.start" />
-      <item itemvalue="sbt Task.compile javascript" />
+      <item itemvalue="sbt Task EnvFile.compile javascript" />
       <item itemvalue="ScalaTest.AuthRoutesSpec" />
       <item itemvalue="ScalaTest.AuthSpec" />
     </list>
@@ -316,14 +324,13 @@
       <workItem from="1691581050183" duration="7370000" />
       <workItem from="1691606349157" duration="2298000" />
       <workItem from="1691667725357" duration="6106000" />
-      <workItem from="1691673968489" duration="3919000" />
-    </task>
-    <task id="LOCAL-00003" summary="Added minimal configuration.">
-      <created>1682183272499</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1682183272499</updated>
+      <workItem from="1691673968489" duration="4562000" />
+      <workItem from="1692038595301" duration="5324000" />
+      <workItem from="1692446831702" duration="115000" />
+      <workItem from="1692447481766" duration="436000" />
+      <workItem from="1692447935874" duration="514000" />
+      <workItem from="1692464838628" duration="374000" />
+      <workItem from="1692467753380" duration="34000" />
     </task>
     <task id="LOCAL-00004" summary="Added post endpoint stubs.">
       <created>1682201638980</created>
@@ -661,7 +668,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691608892163</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Completed Post Page.. for now.">
+      <created>1691678604004</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1691678604005</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -679,7 +693,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Refactor." />
     <MESSAGE value="Implemented recoveryTokens algebra." />
     <MESSAGE value="Implemented password recovery." />
     <MESSAGE value="Implemented password recovery email." />
@@ -704,6 +717,7 @@
     <MESSAGE value="Completed filterPanel ui. The tag filters are currently broken. Need to fix that at some point." />
     <MESSAGE value="Fixed issue with the filters. There is still an issue with the load more button." />
     <MESSAGE value="fixed issue with the load more button." />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed issue with the load more button." />
+    <MESSAGE value="Completed Post Page.. for now." />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed Post Page.. for now." />
   </component>
 </project>
